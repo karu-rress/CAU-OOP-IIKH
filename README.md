@@ -31,7 +31,7 @@
     <th colspan="4">이수 내역</th>
   </tr>
   <tr>
-    <td><b>이수학기</b></td><td>-/td>
+    <td><b>이수학기</b></td><td>-</td>
     <td><b>취득평점</b></td><td>-</td>
   </tr>
 </table>
