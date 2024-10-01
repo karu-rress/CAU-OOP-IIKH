@@ -1,6 +1,6 @@
 #include "greeter.h"
 
-int main(){
+int main() {
 
     // sample code
 
@@ -8,11 +8,6 @@ int main(){
     greeter.printInitialMessage();
 
     Option option = greeter.getUserOption();
-
-
-
-
-
 
     return 0;
 }

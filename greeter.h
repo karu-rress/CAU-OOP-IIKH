@@ -1,18 +1,16 @@
 #ifndef _GREETER_H_
 #define _GREETER_H_
 
-enum class Option
-{
+enum class Option {
     BrowseRecipe,
     AddRecipe,
     EditRecipe,
     ReviewPlan,
     CreatePlan,
-    Exit,
+    Quit,
 };
 
-class Greeter
-{
+class Greeter {
 public:
     void printInitialMessage();
 
@@ -21,12 +19,10 @@ public:
 private:
 };
 
-void Greeter::printInitialMessage()
-{
+void Greeter::printInitialMessage() {
 }
 
-Option Greeter::getUserOption()
-{
+Option Greeter::getUserOption() {
 }
 
 #endif

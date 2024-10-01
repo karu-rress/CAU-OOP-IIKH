@@ -1,18 +1,17 @@
 #ifndef _RECIPE_DB_H_
 #define _RECIPE_DB_H_
 
-#include <fstream>
 #include <filesystem>
-#include <string_view>
+#include <fstream>
 #include <map>
+#include <string_view>
 
-#include "recipe.h"
 #include "meal.h"
+#include "recipe.h"
 
 using namespace std::literals;
 
-class RecipeDatabase
-{
+class RecipeDatabase {
 public:
     RecipeDatabase();
 
@@ -22,16 +21,15 @@ private:
     std::map<std::string, Meal> m_meals;
 
     // TODO: 수정
-    constexpr static inline char *recipeFileName = "recipe.db";
-    constexpr static inline char *mealFileName = "meal.db";
+    constexpr static inline char* recipeFileName = "recipe.db";
+    constexpr static inline char* mealFileName = "meal.db";
 
     // 이게 필요...한가?
     std::filesystem::path m_dbPath;
     std::fstream m_dbFile;
 };
 
-RecipeDatabase::RecipeDatabase()
-{
+RecipeDatabase::RecipeDatabase() {
 }
 
 #endif

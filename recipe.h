@@ -3,17 +3,16 @@
 
 class Recipe {
 public:
+    Recipe();
+    Recipe(const Recipe& recipe);
+    Recipe(Recipe&& recipe) noexcept;
 
 
-// Compare
-// Update
-// 
-
+    // Compare
+    // Update
+    //
 
 private:
-
-
 };
-
 
 #endif
