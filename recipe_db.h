@@ -1,37 +1,50 @@
+/**
+ *
+ * recipe_db.h
+ *
+ * @author: Na Sunwoo@CSE-23 (@karu-rress)
+ * @brief: Recipe와 Meal을 관리하는 데이터베이스 Wrapper
+ * @version: 0.1
+ *
+ */
+
 #ifndef _RECIPE_DB_H_
 #define _RECIPE_DB_H_
 
-#include <fstream>
+// importing standard libraries
 #include <filesystem>
+#include <fstream>
+#include <list>
 #include <string_view>
-#include <map>
 
-#include "recipe.h"
+// importing user-defined libraries
 #include "meal.h"
+#include "recipe.h"
 
-using namespace std::literals;
-
-class RecipeDatabase
-{
+// Stores recipes and meals
+class RecipeDatabase {
 public:
     RecipeDatabase();
 
+    void action();
+    
 private:
-    // RecipeDatabase는 Recipe와 Meal 딕셔너리를 관리한다.
-    std::map<std::string, Recipe> m_recipes;
-    std::map<std::string, Meal> m_meals;
+    // Lists storing recipes and meals
+    //   Not using std::vector <- don't need std::random_access_iterator
+    //   Not using std::map <- The name(key) is already stored in each class
+    std::list<Recipe> m_recipes;
+    std::list<Meal> m_meals;
 
-    // TODO: 수정
-    constexpr static inline char *recipeFileName = "recipe.db";
-    constexpr static inline char *mealFileName = "meal.db";
+    // Database file names
+    // 'static' allows this variable to be shared among all instances
+    // 'constexpr' allows this variable to be evaluated at compile time
+    // If a variable is 'constexpr', it automatically becomes 'inline'
+    static constexpr inline std::string_view recipeFileName = "recipe.db";
+    static constexpr inline std::string_view mealFileName = "meal.db";
 
-    // 이게 필요...한가?
+    // stores path & file stream
     std::filesystem::path m_dbPath;
     std::fstream m_dbFile;
 };
-
-RecipeDatabase::RecipeDatabase()
-{
-}
 
 #endif
