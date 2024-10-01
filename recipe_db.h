@@ -16,6 +16,7 @@
 #include <fstream>
 #include <list>
 #include <string_view>
+#include <vector>
 
 // importing user-defined libraries
 #include "meal.h"
@@ -26,8 +27,22 @@ class RecipeDatabase {
 public:
     RecipeDatabase();
 
-    void action();
-    
+    // Search recipes by keyword
+    std::list<Recipe> searchRecipes(const std::vector<std::string> &keywords) const;
+
+    // Get a recipe by name
+    Recipe getRecipe(const std::string &name) const;
+
+    // Add a recipe
+    void addRecipe();
+
+    // Remove a recipe
+    void removeRecipe(const std::string &name);
+    void removeRecipe(const Recipe &name);
+
+    // Destructor automatically saves the database to the file
+    ~RecipeDatabase();
+
 private:
     // Lists storing recipes and meals
     //   Not using std::vector <- don't need std::random_access_iterator
