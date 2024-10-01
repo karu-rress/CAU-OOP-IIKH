@@ -22,6 +22,12 @@
 #include "meal.h"
 #include "recipe.h"
 
+// TODO: 레시피는 저장하는 게 아닌가...?
+// 일단 Recipe만 저장하는 것 같고...
+// Meal은 오히려 RecipeDB를 이용하여 조회하는 등 해야 함.
+
+#define SAVE_MEAL
+
 // Stores recipes and meals
 class RecipeDatabase {
 public:
@@ -48,14 +54,20 @@ private:
     //   Not using std::vector <- don't need std::random_access_iterator
     //   Not using std::map <- The name(key) is already stored in each class
     std::list<Recipe> m_recipes;
+
+#ifdef SAVE_MEAL
     std::list<Meal> m_meals;
+#endif
 
     // Database file names
     // 'static' allows this variable to be shared among all instances
     // 'constexpr' allows this variable to be evaluated at compile time
     // If a variable is 'constexpr', it automatically becomes 'inline'
     static constexpr inline std::string_view recipeFileName = "recipe.db";
+
+#ifdef SAVE_MEAL
     static constexpr inline std::string_view mealFileName = "meal.db";
+#endif
 
     // stores path & file stream
     std::filesystem::path m_dbPath;

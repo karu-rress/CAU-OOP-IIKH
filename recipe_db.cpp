@@ -34,6 +34,7 @@ RecipeDatabase::RecipeDatabase() {
     }
     m_dbFile.close();
 
+#ifdef SAVE_MEAL
     // Open the meal database file
     if (m_dbFile.open(m_dbPath / mealFileName, ios::in | ios::binary);
         !m_dbFile.is_open())
@@ -45,6 +46,8 @@ RecipeDatabase::RecipeDatabase() {
         m_dbFile.read(reinterpret_cast<char *>(&meal), sizeof(Meal));
         m_meals.push_back(meal);
     }
+    m_dbFile.close();
+#endif
 }
 
 // Search recipes by keyword
@@ -111,6 +114,7 @@ RecipeDatabase::~RecipeDatabase() {
         m_dbFile.write(reinterpret_cast<char *>(&recipe), sizeof(Recipe));
     m_dbFile.close();
 
+#ifdef SAVE_MEAL
     // Open the meal database file
     if (m_dbFile.open(m_dbPath / mealFileName, ios::out | ios::binary);
         !m_dbFile.is_open())
@@ -120,4 +124,5 @@ RecipeDatabase::~RecipeDatabase() {
     for (auto &meal : m_meals)
         m_dbFile.write(reinterpret_cast<char *>(&meal), sizeof(Meal));
     m_dbFile.close();
+#endif
 }
