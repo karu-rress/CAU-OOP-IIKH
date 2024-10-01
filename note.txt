@@ -1,0 +1,6 @@
+Recipe
+- list<string> ingredients
+- instruction portion (string?)
+
+- steps to transform ing -> result
+- 출력과 수정은 recipe에서 담당
