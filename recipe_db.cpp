@@ -15,7 +15,8 @@ namespace fs = std::filesystem;
 using namespace std;
 
 // Initialize the RecipeDatabase
-RecipeDatabase::RecipeDatabase() {
+RecipeDatabase::RecipeDatabase()
+{
     // Get the path to the database file
     // If directory doesn't exist, return
     if (m_dbPath = fs::current_path() / "data"; fs::exists(m_dbPath) == false)
@@ -29,7 +30,7 @@ RecipeDatabase::RecipeDatabase() {
     // Read the recipes from the file
     while (m_dbFile.eof() == false) {
         Recipe recipe;
-        m_dbFile.read(reinterpret_cast<char *>(&recipe), sizeof(Recipe));
+        m_dbFile.read(reinterpret_cast<char*>(&recipe), sizeof(Recipe));
         m_recipes.push_back(recipe);
     }
     m_dbFile.close();
@@ -43,7 +44,7 @@ RecipeDatabase::RecipeDatabase() {
     // Read the meals from the file
     while (m_dbFile.eof() == false) {
         Meal meal;
-        m_dbFile.read(reinterpret_cast<char *>(&meal), sizeof(Meal));
+        m_dbFile.read(reinterpret_cast<char*>(&meal), sizeof(Meal));
         m_meals.push_back(meal);
     }
     m_dbFile.close();
@@ -51,14 +52,17 @@ RecipeDatabase::RecipeDatabase() {
 }
 
 // Search recipes by keyword
-list<Recipe> RecipeDatabase::searchRecipes(const vector<string> &keywords) const {
+list<Recipe> RecipeDatabase::searchRecipes(const vector<string>& keywords) const
+{
     list<Recipe> result;
 
     // Search for the keyword in the recipe list
-    for (auto &recipe : m_recipes) {
-        for (auto &keyword : keywords) {
+    for (auto& recipe : m_recipes) {
+        for (auto& keyword : keywords) {
             // TODO: find only "name"? or include "description"?
             // TODO: getName function or other names...
+
+            // TODO: This is OR operation!!!!!
             if (recipe.getName().find(keyword) != string::npos)
                 // recipe.getDescription().find(keyword) != string::npos)
                 result.push_back(recipe);
@@ -70,9 +74,21 @@ list<Recipe> RecipeDatabase::searchRecipes(const vector<string> &keywords) const
 }
 
 // Get a recipe by name
-Recipe RecipeDatabase::getRecipe(const string &name) const {
+Recipe &RecipeDatabase::getRecipe(const string& name)
+{
     // Search for the recipe by name
-    for (auto &recipe : m_recipes) {
+    for (auto& recipe : m_recipes) {
+        if (recipe.getName() == name)
+            return recipe;
+    }
+
+    throw "Not Found!";
+}
+
+Recipe RecipeDatabase::getRecipe(const string& name) const
+{
+    // Search for the recipe by name
+    for (auto& recipe : m_recipes) {
         if (recipe.getName() == name)
             return recipe;
     }
@@ -82,7 +98,8 @@ Recipe RecipeDatabase::getRecipe(const string &name) const {
 }
 
 // Add a recipe
-void RecipeDatabase::addRecipe() {
+void RecipeDatabase::addRecipe()
+{
     Recipe recipe;
 
     // TODO: Edit function
@@ -90,28 +107,41 @@ void RecipeDatabase::addRecipe() {
     m_recipes.push_back(recipe);
 }
 
+void RecipeDatabase::editRecipe(const string &name)
+{
+    Recipe recipe = getRecipe(name);
+    recipe.edit();
+
+    // Remove the old recipe and add the new one
+    // removeRecipe(name);
+    // m_recipes.push_back(recipe);
+}
+
 // Remove a recipe (by name)
-void RecipeDatabase::removeRecipe(const string &name) {
-    m_recipes.remove_if([&name](const Recipe &recipe) {
+void RecipeDatabase::removeRecipe(const string& name)
+{
+    m_recipes.remove_if([&name](const Recipe& recipe) {
         return recipe.getName() == name;
     });
 }
 
 // Remove a recipe (by object)
-void RecipeDatabase::removeRecipe(const Recipe &recipe) {
+void RecipeDatabase::removeRecipe(const Recipe& recipe)
+{
     m_recipes.remove(recipe);
 }
 
 // Destructor automatically saves the database to the file
-RecipeDatabase::~RecipeDatabase() {
+RecipeDatabase::~RecipeDatabase()
+{
     // Open the recipe database file
     if (m_dbFile.open(m_dbPath / recipeFileName, ios::out | ios::binary);
         !m_dbFile.is_open())
         return;
 
     // Write the recipes to the file
-    for (auto &recipe : m_recipes)
-        m_dbFile.write(reinterpret_cast<char *>(&recipe), sizeof(Recipe));
+    for (auto& recipe : m_recipes)
+        m_dbFile.write(reinterpret_cast<char*>(&recipe), sizeof(Recipe));
     m_dbFile.close();
 
 #ifdef SAVE_MEAL
@@ -121,8 +151,8 @@ RecipeDatabase::~RecipeDatabase() {
         return;
 
     // Write the meals to the file
-    for (auto &meal : m_meals)
-        m_dbFile.write(reinterpret_cast<char *>(&meal), sizeof(Meal));
+    for (auto& meal : m_meals)
+        m_dbFile.write(reinterpret_cast<char*>(&meal), sizeof(Meal));
     m_dbFile.close();
 #endif
 }
