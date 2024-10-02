@@ -10,7 +10,7 @@ class PlanManager {
 public:
     PlanManager(Option option);
 
-    void run() noexcept(false);
+    void run();
     void showPlans(); // option이 4번이면 실행.
     void createNewPlan(); // option이 5번이면 실행.
     

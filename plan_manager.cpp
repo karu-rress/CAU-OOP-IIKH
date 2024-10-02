@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <cassert>
+#include <utility>
 
 #include "date.h"
 #include "greeter.h"
@@ -27,17 +29,18 @@ PlanManager::PlanManager(Option option)
     : userOption(option) {
 }
 
-void PlanManager::run() noexcept(false) {
-    if (userOption == Option::ReviewPlan) {
+void PlanManager::run() {
+    assert(userOption == Option::ReviewPlan || userOption == Option::CreatePlan);
+    [[assume(userOption == Option::ReviewPlan || userOption == Option::CreatePlan)]];
+
+    if (userOption == Option::ReviewPlan)
         showPlans();
-    }
-    else if (userOption == Option::CreatePlan) {
+    
+    else if (userOption == Option::CreatePlan)
         createNewPlan();
-    }
-    else {
-        throw runtime_error("4,5번이 아닌 숫자가 입력되었습니다.");
-        // cout << "4,5번이 아닌 숫자가 입력되었습니다." << endl;
-    }
+
+    else [[unlikely]]
+        unreachable();
 }
 
 void PlanManager::showPlans() {
