@@ -37,10 +37,16 @@ public:
     std::list<Recipe> searchRecipes(const std::vector<std::string> &keywords) const;
 
     // Get a recipe by name
+    // TODO: 직접 파고 들어가서 수정할 건지,
+    // 아니면 지우고 새로운 걸 삽입할 건지.
+    Recipe &getRecipe(const std::string &name);
     Recipe getRecipe(const std::string &name) const;
 
     // Add a recipe
     void addRecipe();
+
+    // Edit a recipe
+    void editRecipe(const std::string &name);
 
     // Remove a recipe
     void removeRecipe(const std::string &name);
