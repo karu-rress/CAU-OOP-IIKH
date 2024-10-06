@@ -6,28 +6,28 @@
 
 class Recipe {
 private:
-    std::string name;                                      // 레시피 이름
-    std::vector<std::pair<std::string, int>> ingredients;  // 재료 (이름, 양 in grams)
-    std::string instructions;                              // 조리 방법
-    int prepTime;                                          // 준비 시간 (분 단위)
+    std::string name;                                      // recipe name
+    std::vector<std::pair<std::string, int>> ingredients;  // ingredients (name, quantity in grams)
+    std::string instructions;                              // instruction
+    int prepTime;                                          // preparation time (minutes)
 
 public:
-    // 생성자
+    // Recipe constructor
     Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time);
 
-    // Getter 메서드
-    std::string getName() const;                           // 레시피 이름 반환
-    std::string getInstruction() const;                    // 조리 방법 반환
-    std::vector<std::pair<std::string, int>> getIngredients() const; // 재료 반환
-    int getPrepTime() const;                               // 준비 시간 반환
+    // getter method
+    std::string getName() const;                                 
+    std::vector<std::pair<std::string, int>> getIngredients() const; 
+    std::string getInstruction() const;      
+    int getPrepTime() const;                           
 
-    // 레시피 수정 메서드 (재료와 조리법 모두 수정)
+    // Edit method 
     void edit();
 
-    // 재료 양을 인분 수에 맞춰 조정하는 메서드
+    // Adjust method
     void adjustForServings(int servings);
 
-    // 레시피 정보를 출력하는 메서드
+    // Display method
     void displayRecipe() const;
 };
 
