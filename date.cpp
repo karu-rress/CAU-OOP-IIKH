@@ -50,7 +50,7 @@ void Date::manageMealList(const std::list<std::string> &mealList)
     std::list<std::string> mealsNames;
     for (const auto &meal : meals)
     {
-        auto mealNames = meal.getMeals(); // Meal 클래스의 메서드를 사용하여 식사 이름을 가져옴
+        auto mealNames = meal.getMeals(); // Get the meal name using a method of the Meal class.
         mealsNames.insert(mealsNames.end(), mealNames.begin(), mealNames.end());
     }
 
@@ -85,8 +85,8 @@ void Date::manageMealList(const std::list<std::string> &mealList)
                 if (it != mealList.end())
                 {
                     Meal newMealObject;
-                    // 여기서 적절한 레시피를 추가하는 로직 추가
-                    meals.push_back(newMealObject); // 실제 meals 벡터에 추가
+                    // Add logic to add appropriate recipes here
+                    meals.push_back(newMealObject); // Add to actual meals vector
                     std::cout << "Meal added successfully." << std::endl;
                 }
                 else
@@ -104,7 +104,7 @@ void Date::manageMealList(const std::list<std::string> &mealList)
                                        { return meal.getName() == mealToRemove; });
                 if (it != meals.end())
                 {
-                    meals.erase(it); // 실제 meals 벡터에서 삭제
+                    meals.erase(it); // Delete from the actual meals vector
                     std::cout << "Meal removed successfully." << std::endl;
                 }
                 else
