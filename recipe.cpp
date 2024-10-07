@@ -2,7 +2,7 @@
 #include <iostream>
 
 //Recipe default constructor
-Recipe::Recipe() {};
+Recipe::Recipe() {}
 
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
 Recipe::Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time)
