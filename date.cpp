@@ -15,6 +15,13 @@ Date::Date(int year, int month, int day)
     , m_day(day)
     , description("") {};
 
+std::string Date::getDateAsString() const
+{
+    return std::to_string(m_year) + "-" +
+           (m_month < 10 ? "0" : "") + std::to_string(m_month) + "-" +
+           (m_day < 10 ? "0" : "") + std::to_string(m_day);
+}
+
 void Date::displayAndEdit() {
     // Display date
     cout << "Date: " << m_year << "-" << m_month << "-" << m_day << endl;
