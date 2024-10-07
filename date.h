@@ -21,7 +21,7 @@ public:
     Date(int year, int month, int day);
 
     void displayAndEdit();
-    void buildGroceryList(const std::list<std::string>& groceryList);
+    void buildGroceryList(const std::list<std::string> &groceryList);
 
 private:
     int m_year;

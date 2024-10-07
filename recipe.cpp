@@ -4,7 +4,10 @@
 
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
 Recipe::Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time)
-    : name(n), ingredients(ingr), instructions(instr), prepTime(time) {}
+    : name(n)
+    , ingredients(ingr)
+    , instructions(instr)
+    , prepTime(time) { }
 
 // Get name method
 std::string Recipe::getName() const {
@@ -33,7 +36,7 @@ void Recipe::edit() {
     // input new ingredients
     std::string newIngredientsStr;
     std::cout << "Enter ingredients (e.g. egg 100, flour 300, ...): ";
-    std::getline(std::cin, newIngredientsStr);  
+    std::getline(std::cin, newIngredientsStr);
 
     // clear original and update new ingredients
     ingredients.clear();
@@ -52,19 +55,19 @@ void Recipe::edit() {
     // input new instruction
     std::string newInstruction;
     std::cout << "Enter instruction: ";
-    std::getline(std::cin, newInstruction); 
+    std::getline(std::cin, newInstruction);
     instructions = newInstruction;
 
-     // input new preptime
+    // input new preptime
     std::cout << "Enter preparation time (minutes): ";
     std::cin >> prepTime;
-    std::cin.ignore(); 
+    std::cin.ignore();
 }
 
 // Adjust for servings method
 void Recipe::adjustForServings(int servings) {
-    for (auto& ingredient : ingredients) {
-        ingredient.second *= servings; 
+    for (auto &ingredient : ingredients) {
+        ingredient.second *= servings;
     }
 }
 
@@ -72,9 +75,9 @@ void Recipe::adjustForServings(int servings) {
 void Recipe::displayRecipe() const {
     std::cout << "Recipe Name: " << name << "\n";
     std::cout << "Ingredients: \n";
-    for (const auto& ingredient : ingredients) {
-        std::cout << ingredient.first << ": " << ingredient.second << "g\n";  
+    for (const auto &ingredient : ingredients) {
+        std::cout << ingredient.first << ": " << ingredient.second << "g\n";
     }
-    std::cout << "Instructions: " << instructions << "\n";  
+    std::cout << "Instructions: " << instructions << "\n";
     std::cout << "Preparation Time: " << prepTime << " minutes\n";
 }

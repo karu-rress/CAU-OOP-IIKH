@@ -62,7 +62,7 @@ private:
     std::list<Recipe> m_recipes;
 
     // TODO: 수정
-    constexpr static inline char* recipeFileName = "recipe.db";
+    constexpr static inline char *recipeFileName = "recipe.db";
 
     // Database file names
     // 'constexpr' allows this variable to be evaluated at compile time

@@ -13,7 +13,7 @@ public:
     void run() noexcept(false);
     void showPlans(); // option이 4번이면 실행.
     void createNewPlan(); // option이 5번이면 실행.
-    
+
 private:
     Option userOption;
     std::list<Date> m_dates; // 계획된 Date들이 들어가 있는 Date리스트 = 일정(Plan).
