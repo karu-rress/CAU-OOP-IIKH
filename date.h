@@ -1,9 +1,9 @@
 /*
 
-Date Collab orators
+Date Collaborators
 Plan Manager
 Meal
-Maintain information ab out sp eci c date
+Maintain information about specic date
 Date(year, month, day){create new date
 DisplayAndEdit(){display date information
 in window allowing user to edit entries

@@ -50,7 +50,8 @@ void Date::manageMealList(const std::list<std::string> &mealList)
     std::list<std::string> mealsNames;
     for (const auto &meal : meals)
     {
-        mealsNames.push_back("Meal"); // Assuming meal names are not available, using a placeholder
+        auto mealNames = meal.getMeals(); // Meal 클래스의 메서드를 사용하여 식사 이름을 가져옴
+        mealsNames.insert(mealsNames.end(), mealNames.begin(), mealNames.end());
     }
 
     char choice;
@@ -83,7 +84,9 @@ void Date::manageMealList(const std::list<std::string> &mealList)
                 auto it = std::find(mealList.begin(), mealList.end(), newMeal);
                 if (it != mealList.end())
                 {
-                    mealsNames.push_back(newMeal);
+                    Meal newMealObject;
+                    // 여기서 적절한 레시피를 추가하는 로직 추가
+                    meals.push_back(newMealObject); // 실제 meals 벡터에 추가
                     std::cout << "Meal added successfully." << std::endl;
                 }
                 else
@@ -96,10 +99,12 @@ void Date::manageMealList(const std::list<std::string> &mealList)
                 std::cout << "Enter the name of the meal to remove: ";
                 std::string mealToRemove;
                 std::getline(std::cin, mealToRemove);
-                auto it = std::find(mealsNames.begin(), mealsNames.end(), mealToRemove);
-                if (it != mealsNames.end())
+                auto it = std::find_if(meals.begin(), meals.end(),
+                                       [&mealToRemove](const Meal &meal)
+                                       { return meal.getName() == mealToRemove; });
+                if (it != meals.end())
                 {
-                    mealsNames.erase(it);
+                    meals.erase(it); // 실제 meals 벡터에서 삭제
                     std::cout << "Meal removed successfully." << std::endl;
                 }
                 else
@@ -126,10 +131,16 @@ void Date::manageMealList(const std::list<std::string> &mealList)
 
 std::list<std::string> Date::getMealList() const
 {
-    return meals;
+    std::list<std::string> mealNames;
+    for (const auto &meal : meals)
+    {
+        auto names = meal.getMeals(); // Meal 객체에서 이름을 가져옴
+        mealNames.insert(mealNames.end(), names.begin(), names.end());
+    }
+    return mealNames;
 }
 
-void buildGroceryList(const std::map<std::string, double> &groceryList) const
+void Date::buildGroceryList(std::map<std::string, double> &groceryList) const
 {
     for (const auto &meal : meals)
     {
