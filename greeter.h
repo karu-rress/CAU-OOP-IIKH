@@ -1,3 +1,13 @@
+/**
+ *
+ * greeter.h
+ *
+ * @author: Na Sunwoo@CSE-23 (@karu-rress)
+ * @brief: Greeter/UI class for IIKH
+ * @version: 0.1
+ *
+ */
+
 #ifndef _GREETER_H_
 #define _GREETER_H_
 
@@ -15,18 +25,15 @@ enum class Option {
 
 class Greeter {
 public:
-    Greeter(PlanManager &planManager, RecipeDatabase &recipeDatabase);
-
+    Greeter(PlanManager &pm, RecipeDatabase &rdb);
     void run();
-
-    void printInitialMessage();
-
-    Option getUserOption();
 
 private:
     PlanManager &planManager;
     RecipeDatabase &recipeDatabase;
+    
+    void printInitialMessage();
+    Option getUserOption();
 };
-
 
 #endif

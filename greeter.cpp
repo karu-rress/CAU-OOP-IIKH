@@ -1,8 +1,23 @@
+/**
+ *
+ * greeter.cpp
+ *
+ * @author: Na Sunwoo@CSE-23 (@karu-rress)
+ * @brief: Greeter/UI class for IIKH
+ * @version: 0.1
+ *
+ */
+
 #include <iostream>
 
 #include "greeter.h"
 
 using namespace std;
+
+Greeter::Greeter(PlanManager &pm, RecipeDatabase &rdb)
+    : planManager(pm)
+    , recipeDatabase(rdb) {
+}
 
 void Greeter::run() {
     printInitialMessage();

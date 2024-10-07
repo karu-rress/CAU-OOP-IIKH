@@ -17,6 +17,8 @@ in window allowing user to edit entries
 #include <string>
 #include <vector>
 
+#include "meal.h"
+
 class Date
 {
 public:

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdexcept>
 #include <string>
 
 #include "date.h"
@@ -23,22 +22,8 @@ using namespace std;
 // 계획을 위한 날짜 목록을 입력하라는 프롬프트 띄우기 cin >> year, month, day
 // 입력받은 날짜는 Date 인스턴스 생성해서 Date에게 권한 위임.
 
-PlanManager::PlanManager(Option option)
-    : userOption(option) {
+PlanManager::PlanManager() {
 }
-
-// void PlanManager::run() noexcept(false) {
-//     if (userOption == Option::ReviewPlan) {
-//         showPlans();
-//     }
-//     else if (userOption == Option::CreatePlan) {
-//         createNewPlan();
-//     }
-//     else {
-//         throw runtime_error("4,5번이 아닌 숫자가 입력되었습니다.");
-//         // cout << "4,5번이 아닌 숫자가 입력되었습니다." << endl;
-//     }
-// }
 
 void PlanManager::showPlans() {
     if (m_dates.empty()) {
@@ -53,7 +38,7 @@ void PlanManager::showPlans() {
 
         // 3. 장바구니 출력
         groceryList.clear();
-            date.buildGroceryList(groceryList); // date에게 빈 groceryList 넘겨주면 string list 반환.
+        date.buildGroceryList(groceryList); // date에게 빈 groceryList 넘겨주면 string list 반환.
         cout << "Grocery List: ";
         for (const string &ingredient : groceryList) {
 
