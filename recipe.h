@@ -5,12 +5,6 @@
 #include <vector>
 
 class Recipe {
-private:
-    std::string name; // recipe name
-    std::vector<std::pair<std::string, int>> ingredients; // ingredients (name, quantity in grams)
-    std::string instructions; // instruction
-    int prepTime; // preparation time (minutes)
-
 public:
     // Recipe constructor
     Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time);
@@ -29,6 +23,12 @@ public:
 
     // Display method
     void displayRecipe() const;
+
+private:
+    std::string name; // recipe name
+    std::vector<std::pair<std::string, int>> ingredients; // ingredients (name, quantity in grams)
+    std::string instructions; // instruction
+    int prepTime; // preparation time (minutes)
 };
 
 #endif

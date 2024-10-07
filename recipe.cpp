@@ -3,7 +3,8 @@
 #include <sstream>
 
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
-Recipe::Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time)
+Recipe::Recipe(std::string n,
+    std::vector<std::pair<std::string, int>> ingr, std::string instr, int time)
     : name(n)
     , ingredients(ingr)
     , instructions(instr)

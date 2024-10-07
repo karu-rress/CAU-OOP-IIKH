@@ -27,18 +27,18 @@ PlanManager::PlanManager(Option option)
     : userOption(option) {
 }
 
-void PlanManager::run() noexcept(false) {
-    if (userOption == Option::ReviewPlan) {
-        showPlans();
-    }
-    else if (userOption == Option::CreatePlan) {
-        createNewPlan();
-    }
-    else {
-        throw runtime_error("4,5번이 아닌 숫자가 입력되었습니다.");
-        // cout << "4,5번이 아닌 숫자가 입력되었습니다." << endl;
-    }
-}
+// void PlanManager::run() noexcept(false) {
+//     if (userOption == Option::ReviewPlan) {
+//         showPlans();
+//     }
+//     else if (userOption == Option::CreatePlan) {
+//         createNewPlan();
+//     }
+//     else {
+//         throw runtime_error("4,5번이 아닌 숫자가 입력되었습니다.");
+//         // cout << "4,5번이 아닌 숫자가 입력되었습니다." << endl;
+//     }
+// }
 
 void PlanManager::showPlans() {
     if (m_dates.empty()) {
@@ -52,9 +52,11 @@ void PlanManager::showPlans() {
         // 2. 그 날의 레시피 출력. : 이거를 displayAndEdit()와 함께 출력? 아니면 따로 레시피 출력을 돕는 기능을 Date에 추가?
 
         // 3. 장바구니 출력
-        date.buildGroceryList(groceryList); // date에게 빈 groceryList 넘겨주면 string list 반환.
+        groceryList.clear();
+            date.buildGroceryList(groceryList); // date에게 빈 groceryList 넘겨주면 string list 반환.
+        cout << "Grocery List: ";
         for (const string &ingredient : groceryList) {
-            cout << "Grocery List: ";
+
             cout << ingredient << " ";
         }
         cout << endl;
