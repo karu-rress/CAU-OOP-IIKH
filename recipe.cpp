@@ -1,6 +1,5 @@
 #include "recipe.h"
 #include <iostream>
-#include <sstream>
 
 //Recipe default constructor
 Recipe::Recipe() {};
