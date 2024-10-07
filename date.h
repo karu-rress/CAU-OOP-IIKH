@@ -25,7 +25,7 @@ public:
     void displayAndEdit();
     void manageMealList(const std::list<std::string> &mealList);
     std::list<std::string> getMealList() const; // To ensure safety, set it as const
-    void buildGroceryList(const std::map<std::string, double> &groceryList) const;
+    void buildGroceryList(std::map<std::string, double> &groceryList) const;
 
 private:
     int m_year;
