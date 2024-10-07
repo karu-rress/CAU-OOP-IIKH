@@ -61,13 +61,6 @@ void Recipe::edit() {
     std::cin.ignore(); 
 }
 
-// Adjust for servings method
-void Recipe::adjustForServings(int servings) {
-    for (auto& ingredient : ingredients) {
-        ingredient.second *= servings; 
-    }
-}
-
 // Display method
 void Recipe::displayRecipe() const {
     std::cout << "Recipe Name: " << name << "\n";

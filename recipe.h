@@ -24,9 +24,6 @@ public:
     // Edit method 
     void edit();
 
-    // Adjust method
-    void adjustForServings(int servings);
-
     // Display method
     void displayRecipe() const;
 };
