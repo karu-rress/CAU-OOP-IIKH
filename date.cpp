@@ -134,7 +134,7 @@ std::list<std::string> Date::getMealList() const
     std::list<std::string> mealNames;
     for (const auto &meal : meals)
     {
-        auto names = meal.getMeals(); // Meal 객체에서 이름을 가져옴
+        auto names = meal.getMeals(); // Get name from Meal object
         mealNames.insert(mealNames.end(), names.begin(), names.end());
     }
     return mealNames;
