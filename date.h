@@ -16,22 +16,23 @@ in window allowing user to edit entries
 #include <list>
 #include <string>
 
-class Date {
+class Date
+{
 public:
     Date(int year, int month, int day);
 
     void displayAndEdit();
-    void buildGroceryList(const std::list<std::string> &groceryList);
-
+    void manageMealList(const std::list<std::string> &mealList);
+    std::list<std::string> getMealList() const; // To ensure safety, set it as const
+    void buildGroceryList(const std::map<std::string, double> &groceryList) const;
+    
 private:
     int m_year;
     int m_month;
     int m_day;
 
     std::string description;
+    std::vector<Meal> meals;
 };
-
-void Date::displayAndEdit() {
-}
 
 #endif
