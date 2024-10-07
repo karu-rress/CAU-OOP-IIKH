@@ -2,6 +2,9 @@
 #include <iostream>
 #include <sstream>
 
+//Recipe default constructor
+Recipe::Recipe() {};
+
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
 Recipe::Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time)
     : name(n), ingredients(ingr), instructions(instr), prepTime(time) {}
@@ -31,23 +34,19 @@ void Recipe::edit() {
     std::cout << "Editing Recipe: " << name << std::endl;
 
     // input new ingredients
-    std::string newIngredientsStr;
-    std::cout << "Enter ingredients (e.g. egg 100, flour 300, ...): ";
-    std::getline(std::cin, newIngredientsStr);  
+    std::cout << "Enter ingredients (format: egg 100 flour 200 ...): ";
+    std::vector<std::pair<std::string, int>> newIngredients;
+    std::string name;
+    int quantity;
 
-    // clear original and update new ingredients
-    ingredients.clear();
-    std::stringstream ss(newIngredientsStr);
-    std::string ingredient;
-    while (std::getline(ss, ingredient, ',')) {
-        std::stringstream item(ingredient);
-        std::string name;
-        int quantity;
-
-        if (item >> name >> quantity) {
-            ingredients.push_back(std::make_pair(name, quantity));
+    while (std::cin >> name >> quantity) {
+        newIngredients.push_back(std::make_pair(name, quantity));
+        if (std::cin.peek() == '\n') {
+            std::cin.ignore();
+            break;
         }
     }
+    ingredients = std::move(newIngredients);
 
     // input new instruction
     std::string newInstruction;

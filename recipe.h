@@ -12,6 +12,8 @@ private:
     int prepTime;                                          // preparation time (minutes)
 
 public:
+    // Recipe default constructor
+    Recipe();
     // Recipe constructor
     Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time);
 
