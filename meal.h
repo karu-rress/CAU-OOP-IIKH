@@ -1,13 +1,13 @@
 #ifndef _MEAL_H_
 #define _MEAL_H_
 
-#include <list>
+#define DEBUG_KARU
 
 class Meal {
 public:
-    Meal();
-    Meal(const Meal& meal);
-    Meal(Meal&& meal) noexcept;
+#ifdef DEBUG_KARU
+
+#endif
 
     std::list<std::string> getMeals();
 

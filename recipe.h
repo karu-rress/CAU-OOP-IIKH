@@ -1,16 +1,26 @@
 #ifndef _RECIPE_H_
 #define _RECIPE_H_
 
+#define DEBUG_KARU
+
+#include <string>
+
 class Recipe {
 public:
-    Recipe();
-    Recipe(const Recipe& recipe);
-    Recipe(Recipe&& recipe) noexcept;
-
-
     // Compare
     // Update
     //
+
+#ifdef DEBUG_KARU
+    std::string getName() const
+    {
+        return "name";
+    }
+
+    void edit() {
+        
+    }
+#endif
 
 private:
 };

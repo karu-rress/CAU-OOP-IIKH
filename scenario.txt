@@ -31,3 +31,18 @@ second alternative.
 Examining this dish, Alice decides this is the one she had in mind. She requests
 a printing of the recipe, and the output is spooled to her printer. Alice selects
 \quit" from a program menu, and the application quits.
+
+---
+
+Meal 구성 요소는 증강된 레시피 모음을 유지 관리하는데, 
+증강은 사용자가 레시피를 두 배, 세 배 또는 그 외의 방법으로 늘리고자 하는 욕구를 말합니다.
+Meal 구성 요소는 식사에 대한 정보를 표시합니다.
+사용자는 식사에서 레시피를 추가하거나 제거하거나 식사에 대한 정보를 인쇄하도록 지시할 수 있습니다.
+새로운 레시피를 찾으려면 이 시점에서 사용자가 레시피 데이터베이스를 탐색할 수 있어야 합니다.
+따라서 Meal 구성 요소는 레시피 데이터베이스 구성 요소와 상호 작용해야 합니다.
+디자인 팀은 이런 방식으로 계속 진행하여 가능한 모든 시나리오를 조사합니다.
+여기서 개발하지 않은 주요 시나리오 범주는 예외적인 경우입니다.
+예를 들어, 사용자가 레시피에 대한 여러 키워드를 선택했지만 일치하는 레시피를
+찾을 수 없는 경우 어떻게 되나요? 사용자가 계속하지 않기로 결정한 경우 새 레시피 입력과
+같은 활동을 취소하려면 어떻게 해야 하나요? 각 가능성을 탐색해야 하며, 하나 이상의
+구성 요소에 상황을 처리하기 위한 책임이 할당되어야 합니다.
