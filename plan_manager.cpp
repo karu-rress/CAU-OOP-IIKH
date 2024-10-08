@@ -1,64 +1,126 @@
+/**
+ *
+ * plan_manager.h
+ * 
+ *
+ * @author: 권정주
+ * @brief: Plan의 데이터를 저장 및 호출하는 기능들 - 저장 형태는 하단의 plan_txt 예시 참고.
+ * 
+ * @method: showPlans() - plan.txt에 저장되어있는 date, meal(레시피들), servings 읽기
+ *                        date는 Date 클래스에게 위임.
+ *                        meal과 servings는 Meal 클래스에게 위임.
+ *          createNewPlan() - year, month, day 입력받기
+ *                          - Date 클래스에게 위임.
+ *                          - newDate의 date, meal, servings를 plan.txt에 추가.
+ * @plan_txt: user가 생성한 plan을 저장해놓는 txt 파일.
+ *            년 월 일 meal servings 순으로 저장.
+ *            e.g.
+ *            2024 10 24 curry noodle kimbop 3
+ *            2024 12 25 cake maratang 2
+ *     
+ *
+ */
+
 #include <iostream>
+#include <stdexcept>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <list>
 
 #include "date.h"
 #include "greeter.h"
 #include "plan_manager.h"
+#include "meal.h"
+#include "recipe_db.h"
 
 using namespace std;
 
-// 4. review an existing plan for several meals.
-// 4-1. 날짜 출력 -> Date에게 권한 넘김.
-// 4-2. 해당 날짜의 meal(레시피 여러 개) 출력 -> Date에게 권한 넘김.
-// 4-3. meal에 필요한 ingredients(쇼핑목록) 출력 -> Date가 groceryList만들어주면 직접 출력.
-// 만약 등록되어있는 계획이 한 개도 없다면 -> "존재하는 일정이 없습니다." 직접 출력.
-
-// e.g. 예시일 뿐.. 출력 형태는 다른 클래스에서 결정될 예정.
-// 2024년 11월 11일 파스타, 떡볶이, 국밥 / 쇼핑목록: 파스타면, 떡, 고추장, 토마토페이스트, 쌀, 사골국, 후추~~
-// 2024년 12월 11일 마라탕, 돈가스 / 쇼핑목록: ~~~
-// 2024년 12월 15일 김치찌개, 된장찌개 / 쇼핑목록: 김치, ~~~~
-
-// 5. create a new plan of meals.
-// 계획을 위한 날짜 목록을 입력하라는 프롬프트 띄우기 cin >> year, month, day
-// 입력받은 날짜는 Date 인스턴스 생성해서 Date에게 권한 위임.
-
-PlanManager::PlanManager() {
-}
-
 void PlanManager::showPlans() {
-    if (m_dates.empty()) {
-        cout << "존재하는 일정이 없습니다." << endl;
-        return; // Greeter로 돌아감.
-    }
-    for (Date date : m_dates) { // 계획된 날짜들 리스트 돌면서 하나씩 출력.
 
-        // 1. 일정(날짜) 출력: 여기서는 호출만. 직접 출력은 Date에게 권한넘김.
+    // plan.txt 열기.
+    std::ifstream planFile("plan.txt");
+    if (!planFile.is_open()) {
+        std::cerr << "Failed to open plan.txt file." << std::endl;
+        return;
+    }
+
+    std::string line;
+    RecipeDatabase recipeDb();
+    
+    while (std::getline(planFile, line)) {
+        std::istringstream iss(line);
+        int year, month, day, servings;
+
+        // 연도, 월, 일 파일로부터 추출.
+        iss >> year >> month >> day;
+        Date date(year, month, day); // Date 객체 생성
         date.displayAndEdit();
-        // 2. 그 날의 레시피 출력. : 이거를 displayAndEdit()와 함께 출력? 아니면 따로 레시피 출력을 돕는 기능을 Date에 추가?
 
-        // 3. 장바구니 출력
-        groceryList.clear();
-        date.buildGroceryList(groceryList); // date에게 빈 groceryList 넘겨주면 string list 반환.
-        cout << "Grocery List: ";
-        for (const string &ingredient : groceryList) {
-
-            cout << ingredient << " ";
+        
+        std::vector<std::string> recipes;
+        std::string recipeName;
+        
+        // 레시피와 인분수 추출.
+        while (iss >> recipeName) {
+            if (isdigit(recipeName[0])) {
+                servings = std::stoi(recipeName);
+                break;
+            } else {
+                recipes.push_back(recipeName); // 레시피 이름을 벡터에 추가
+            }
         }
-        cout << endl;
+        
+        //추출한 인분수로 Meal 객체 생성.
+        Meal meal(servings); 
+        
+        // Meal 객체에 추출한 레시피들 추가.
+        for (const std::string& recipe : recipes) {
+            meal.addRecipeToMeal(recipeDb, recipe);
+        }
+
+        //레시피 출력 함수 호출.(Meal에게 위임.)
+        meal.displayMealInfo();
+
+        //이번 meal의 장바구니 목록하는 함수 호출.(Meal에게 위임.)
+        meal.getGroceryList();
     }
+    planFile.close();
+   
 }
 
 void PlanManager::createNewPlan() {
     int year, month, day;
 
-    cout << "일정을 만들 날짜를 입력하세요.(e.g. 2024 10 01)";
+    cout << "Enter the date to make your plan like this format(2024 10 01) : ";
     cin >> year >> month >> day;
-    cout << year << "년 " << month << "월 " << day << "일" << endl;
 
     Date newDate(year, month, day); // 입력받은 날짜로 Date 인스턴스 생성.
     newDate.displayAndEdit(); // Date에게 control 위임.
 
-    m_dates.push_back(newDate); // m_dates에 dateNew 추가: 전체 일정에다가 새롭게 계획한 Date 추가.
+    std::ofstream planFile("plan.txt", std::ios::app);
+    if(planFile.is_open()){
+        
+        //1. 파일에 날짜 입력.
+        planFile << year << " " << month << " " << day << " ";
+
+        Meal meal = newDate.getMealList();
+        std::list<std::string> recipesInMeal = meal.getMeals(); //meal로부터 레시피 담긴 string list 받기.
+        //2. 파일에 레시피 입력.
+        for(const std::string&recipe : recipesInMeal){
+            planFile << recipe << " ";
+        }
+
+        int servings = meal.getServings(); //meal로부터 servings 받기.
+        //3. 파일에 인분수 입력.
+        planFile << servings << endl;
+        
+        planFile.close();
+    }
+    else {
+        std::cerr << "file open failed." << std::endl;
+    }
 
     return; // 일정 추가했으면 Greeter로 돌아감.
 }
