@@ -16,7 +16,7 @@ Date::Date(int year, int month, int date)
     , description("") {};
 
 tuple<int, int, int> Date::getDate() const {
-    return make_tuple(m_year, m_month, m_day);
+    return make_tuple(year, month, date);
 }
 
 string Date::getDateAsString() const {
@@ -61,7 +61,7 @@ void Date::manageMealList(const list<Meal> &allMeals) {
     char choice;
     do {
         // 현재 날짜에 해당하는 식사 목록 출력
-        cout << "Meals for " << year << "-" << month << "-" << day << endl;
+        cout << "Meals for " << year << "-" << month << "-" << date << endl;
 
         if (!meals.empty()) {
             cout << "Current meal list for this date:" << endl;

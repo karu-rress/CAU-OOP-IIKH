@@ -1,7 +1,7 @@
 #ifndef _MEAL_H_
 #define _MEAL_H_
 
-#include <date.h>
+#include "date.h"
 #include <list>
 #include <map>
 #include <string>
