@@ -1,22 +1,12 @@
-/*
-- Holds information about a single meal
-- Allows the user to interact with the recipe database to
-  select individual recipes for meals
-- The user sets the number of servings, and the recipes
-  are automatically scaled accordingly
-- Can generate a grocery list for the entire meal by combining
-  grocery lists from individual scaled recipes
-*/
 #ifndef _MEAL_H_
 #define _MEAL_H_
 
-#include <iostream>
-#include <string>
+#include <date.h>
 #include <list>
 #include <map>
+#include <string>
 
-#include <recipe_db.h>
-#include <date.h>
+#include "recipe_db.h"
 
 class Meal {
 public:
@@ -24,26 +14,26 @@ public:
     Meal(int servings = 1);
 
     // Adjust ingredient quantities based on the number of servings
-    void adjustServings(int newServings);
+    void adjustServings();
 
     // Display information about the meal
-    void displayMealInfo();
+    void displayMealInfo() const;
 
     // Add a recipe to the meal from the database
-    void addRecipeToMeal(RecipeDatabase& db, const std::string& recipeName);
+    void addRecipe(RecipeDatabase &db, const std::string &recipeName);
 
     // Print the meal (list of recipe names)
-    void printMeal();
+    void printMeal() const;
 
     // Return the list of meal names (list of recipe names)
-    std::list<std::string> getMeals();
+    std::list<std::string> getMeals() const;
 
     // Return the complete grocery list for all recipes in the meal
-    std::map<std::string, double> getGroceryList();
+    std::map<std::string, double> getGroceryList() const;
 
 private:
-    int servings;                  // Number of servings
-    std::list<Recipe> recipes;      // List of recipes included in the meal
+    int servings; // Number of servings
+    std::list<Recipe> recipes; // List of recipes included in the meal
 };
 
 #endif

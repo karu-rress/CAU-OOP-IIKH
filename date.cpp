@@ -1,30 +1,30 @@
 #include <algorithm>
 #include <iostream>
-#include <list>
 #include <map>
-#include <string>
-#include <vector>
+#include <sstream>
+#include <iomanip>
 
 #include "date.h"
 
 using namespace std;
 
-Date::Date(int year, int month, int day)
-    : m_year(year)
-    , m_month(month)
-    , m_day(day)
+Date::Date(int year, int month, int date)
+    : year(year)
+    , month(month)
+    , date(date)
     , description("") {};
 
-std::string Date::getDateAsString() const
-{
-    return std::to_string(m_year) + "-" +
-           (m_month < 10 ? "0" : "") + std::to_string(m_month) + "-" +
-           (m_day < 10 ? "0" : "") + std::to_string(m_day);
+string Date::getDateAsString() const {
+    ostringstream oss;
+    oss << setw(2) << setfill('0'); // 출력 폭 설정
+    oss << year << '-' << month << '-' << date;
+
+    return oss.str();
 }
 
+// Edit discription
 void Date::displayAndEdit() {
-    // Display date
-    cout << "Date: " << m_year << "-" << m_month << "-" << m_day << endl;
+    cout << "Date: " << getDateAsString() << endl;
 
     // Display current memo
     if (!description.empty()) {
@@ -40,20 +40,20 @@ void Date::displayAndEdit() {
     cin >> choice;
     cin.ignore(); // Ignore any leftover newline character
 
-    if (choice == 'y' || choice == 'Y') {
+    if (toupper(choice) == 'Y') {
         cout << "Enter new memo: ";
-        std::getline(cin, description);
+        getline(cin, description);
+
         cout << "New Memo: " << description << endl;
         cout << "Memo updated successfully." << endl;
     }
-
     else {
         cout << "No changes made to the memo" << endl;
     }
 }
 
-void Date::manageMealList(const std::list<std::string> &mealList) {
-    std::list<std::string> mealsNames;
+void Date::manageMealList(const list<string> &mealList) {
+    list<string> mealsNames;
     for (const auto &meal : meals) {
         auto mealNames = meal.getMeals(); // Get the meal name using a method of the Meal class.
         mealsNames.insert(mealsNames.end(), mealNames.begin(), mealNames.end());
@@ -62,67 +62,67 @@ void Date::manageMealList(const std::list<std::string> &mealList) {
     char choice;
     do {
         // Display current meals
-        std::cout << "Meals for " << m_year << "-" << m_month << "-" << m_day << std::endl;
+        cout << "Meals for " << year << "-" << month << "-" << date << endl;
 
         if (!mealsNames.empty()) {
-            std::cout << "Meal list that is currently available for addition." << std::endl;
+            cout << "Meal list that is currently available for addition." << endl;
             for (const auto &meal : mealsNames) {
-                std::cout << "- " << meal << std::endl;
+                cout << "- " << meal << endl;
             }
 
-            std::cout << "\nWhat would you like to do? Choose one." << std::endl;
-            std::cout << "1. Add a meal\n";
-            std::cout << "2. Remove a meal\n";
-            std::cout << "3. Exit\n";
-            std::cout << "Enter your choice number: ";
-            std::cin >> choice;
-            std::cin.ignore();
+            cout << "\nWhat would you like to do? Choose one." << endl;
+            cout << "1. Add a meal\n";
+            cout << "2. Remove a meal\n";
+            cout << "3. Exit\n";
+            cout << "Enter your choice number: ";
+            cin >> choice;
+            cin.ignore();
 
             if (choice == '1') {
-                std::cout << "Enter the name of the meal to add: ";
-                std::string newMeal;
-                std::getline(std::cin, newMeal);
-                auto it = std::find(mealList.begin(), mealList.end(), newMeal);
+                cout << "Enter the name of the meal to add: ";
+                string newMeal;
+                getline(cin, newMeal);
+                auto it = find(mealList.begin(), mealList.end(), newMeal);
                 if (it != mealList.end()) {
                     Meal newMealObject;
                     // Add logic to add appropriate recipes here
                     meals.push_back(newMealObject); // Add to actual meals vector
-                    std::cout << "Meal added successfully." << std::endl;
+                    cout << "Meal added successfully." << endl;
                 }
                 else {
-                    std::cout << "Meal not found in the provided meal list. Cannot add." << std::endl;
+                    cout << "Meal not found in the provided meal list. Cannot add." << endl;
                 }
             }
             else if (choice == '2') {
-                std::cout << "Enter the name of the meal to remove: ";
-                std::string mealToRemove;
-                std::getline(std::cin, mealToRemove);
-                auto it = std::find_if(meals.begin(), meals.end(),
+                cout << "Enter the name of the meal to remove: ";
+                string mealToRemove;
+                getline(cin, mealToRemove);
+                auto it = find_if(meals.begin(), meals.end(),
                     [&mealToRemove](const Meal &meal) { return meal.getName() == mealToRemove; });
                 if (it != meals.end()) {
                     meals.erase(it); // Delete from the actual meals vector
-                    std::cout << "Meal removed successfully." << std::endl;
+                    cout << "Meal removed successfully." << endl;
                 }
                 else {
-                    std::cout << "Meal not found." << std::endl;
+                    cout << "Meal not found." << endl;
                 }
             }
             else if (choice == '3') {
-                std::cout << "Exiting meal management." << std::endl;
+                cout << "Exiting meal management." << endl;
             }
             else {
-                std::cout << "Invalid choice. Please try again." << std::endl;
+                cout << "Invalid choice. Please try again." << endl;
             }
         }
         else {
-            std::cout << "No meals in meal list. You can't add a meal, sorry." << std::endl;
+            cout << "No meals in meal list. You can't add a meal, sorry." << endl;
             choice = '3';
         }
     } while (choice != '3');
 }
 
-std::list<std::string> Date::getMealList() const {
-    std::list<std::string> mealNames;
+list<string> Date::getMealList() const {
+    list<string> mealNames;
     for (const auto &meal : meals) {
         auto names = meal.getMeals(); // Get name from Meal object
         mealNames.insert(mealNames.end(), names.begin(), names.end());
@@ -130,11 +130,12 @@ std::list<std::string> Date::getMealList() const {
     return mealNames;
 }
 
-void Date::buildGroceryList(std::map<std::string, double> &groceryList) const {
+// Build grocery list
+//   NOTE: groceryList is output parameter
+void Date::buildGroceryList(map<string, double> &groceryList) const {
     for (const auto &meal : meals) {
-        std::map<std::string, double> mealGroceryList = meal.getGroceryList();
-        for (const auto &[ingredient, amount] : mealGroceryList) {
-            groceryList[ingredient] += amount;
+        for (const auto &[name, quantity] : meal.getGroceryList()) {
+            groceryList[name] += quantity;
         }
     }
 }
