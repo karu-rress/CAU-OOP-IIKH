@@ -1,32 +1,36 @@
 #ifndef _RECIPE_H_
 #define _RECIPE_H_
 
+#include <map>
 #include <string>
-#include <vector>
 
+// Recipe class
 class Recipe {
 public:
+    // Recipe default constructor
+    Recipe() = default;
+
     // Recipe constructor
-    Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time);
+    Recipe(std::string n, std::map<std::string, int> ingr, std::string instr, int time);
+
+    // Do not allow to copy the recipe
+    Recipe(const Recipe &recipe) = delete;
 
     // getter method
     std::string getName() const;
-    std::vector<std::pair<std::string, int>> getIngredients() const;
-    std::string getInstruction() const;
+    std::map<std::string, int> getIngredients() const;
+    std::string getInstructions() const;
     int getPrepTime() const;
 
     // Edit method
     void edit();
-
-    // Adjust method
-    void adjustForServings(int servings);
 
     // Display method
     void displayRecipe() const;
 
 private:
     std::string name; // recipe name
-    std::vector<std::pair<std::string, int>> ingredients; // ingredients (name, quantity in grams)
+    std::map<std::string, int> ingredients; // ingredients (name, quantity in grams)
     std::string instructions; // instruction
     int prepTime; // preparation time (minutes)
 };
