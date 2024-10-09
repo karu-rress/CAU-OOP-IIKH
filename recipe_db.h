@@ -34,7 +34,7 @@ public:
     Recipe getRecipe(const std::string &name) const;
 
     // Operator overloading for []
-    Recipe &operator[](const std::string &name) noexcept(false);
+    Recipe &operator[](const std::string &name);
     Recipe operator[](const std::string &name) const;
 
     // Add a recipe

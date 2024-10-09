@@ -4,3 +4,37 @@ Recipe
 
 - steps to transform ing -> result
 - 출력과 수정은 recipe에서 담당
+
+     * 1. Search recipes
+    -Casually browse the database of existing recipes, but without reference to
+    any particular meal plan.
+    2. Add a new recipe
+    -Add a new recipe to the database.
+    3. Edit recipe
+    -Edit or annotate an existing recipe.
+    4. See existing meal plans or See exsting plans of meals
+    -Review an existing plan for several meals.
+    5. Create a new plan of meals or Create a new meal plan
+    -Create a new plan of meals.
+
+    /*
+
+Date Collaborators
+Plan Manager
+Meal
+Maintain information about specic date
+Date(year, month, day){create new date
+DisplayAndEdit(){display date information
+in window allowing user to edit entries
+
+*/
+
+
+Meal
+- Holds information about a single meal
+- Allows the user to interact with the recipe database to
+  select individual recipes for meals
+- The user sets the number of servings, and the recipes
+  are automatically scaled accordingly
+- Can generate a grocery list for the entire meal by combining
+  grocery lists from individual scaled recipes

@@ -9,6 +9,7 @@
  */
 
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 
 #include "recipe_db.h"
@@ -94,13 +95,16 @@ Recipe RecipeDatabase::getRecipe(const string &name) const {
 }
 
 // Operator overloading for []
-Recipe &RecipeDatabase::operator[](const string &name) noexcept(false) {
+Recipe &RecipeDatabase::operator[](const string &name) {
     for (auto &recipe : recipes) {
         if (recipe.getName() == name)
             return recipe;
     }
 
-    throw out_of_range("Recipe not found");
+    // If the recipe is not found, add a new recipe
+    Recipe recipe(name);
+    recipes.push_back(recipe);
+    return recipes.back();
 }
 
 Recipe RecipeDatabase::operator[](const string &name) const {

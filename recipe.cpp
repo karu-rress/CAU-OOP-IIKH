@@ -3,6 +3,12 @@
 #include "recipe.h"
 
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
+Recipe::Recipe(std::string n)
+    : name(n)
+    , ingredients()
+    , instructions("")
+    , prepTime(0) { }
+
 Recipe::Recipe(std::string n, std::map<std::string, int> ingr, std::string instr, int time)
     : name(n)
     , ingredients(ingr)

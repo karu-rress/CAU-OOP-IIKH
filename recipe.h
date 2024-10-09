@@ -11,10 +11,8 @@ public:
     Recipe() = default;
 
     // Recipe constructor
+    Recipe(std::string n);
     Recipe(std::string n, std::map<std::string, int> ingr, std::string instr, int time);
-
-    // Do not allow to copy the recipe
-    Recipe(const Recipe &recipe) = delete;
 
     // getter method
     std::string getName() const;
