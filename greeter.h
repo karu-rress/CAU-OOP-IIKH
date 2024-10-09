@@ -27,12 +27,14 @@ enum class Option {
 // Greeter class for IIKH
 class Greeter {
 public:
-    Greeter(PlanManager &pm, RecipeDatabase &rdb);
+    Greeter(PlanManager &pm, RecipeDatabase &db);
     void run();
 
+    static RecipeDatabase &getRecipeDatabase();
+
 private:
-    PlanManager &planManager;
-    RecipeDatabase &recipeDatabase;
+    static inline PlanManager *planManager = nullptr;
+    static inline RecipeDatabase *recipeDatabase = nullptr;
     
     void printInitialMessage();
     Option getUserOption();
