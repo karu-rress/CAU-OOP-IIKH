@@ -5,7 +5,7 @@
 Recipe::Recipe() {}
 
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
-Recipe::Recipe(std::string n, std::vector<std::pair<std::string, int>> ingr, std::string instr, int time)
+Recipe::Recipe(std::string n, std::map<std::string, int> ingr, std::string instr, int time)
     : name(n), ingredients(ingr), instructions(instr), prepTime(time) {}
 
 // Get name method
@@ -14,7 +14,7 @@ std::string Recipe::getName() const {
 }
 
 // Get ingredients method
-std::vector<std::pair<std::string, int>> Recipe::getIngredients() const {
+std::map<std::string, int> Recipe::getIngredients() const {
     return ingredients;
 }
 
@@ -34,12 +34,12 @@ void Recipe::edit() {
 
     // input new ingredients
     std::cout << "Enter ingredients (format: egg 100 flour 200 ...): ";
-    std::vector<std::pair<std::string, int>> newIngredients;
+    std::map<std::string, int> newIngredients;
     std::string name;
     int quantity;
 
     while (std::cin >> name >> quantity) {
-        newIngredients.push_back(std::make_pair(name, quantity));
+        newIngredients[name] = quantity;
         if (std::cin.peek() == '\n') {
             std::cin.ignore();
             break;
