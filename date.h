@@ -14,10 +14,9 @@ public:
 
     std::tuple<int, int, int> getDate() const;
     std::string getDateAsString() const;
-    std::list<Meal> getMeals() const;
 
     void displayAndEdit();
-    void manageMealList(const std::list<std::string> &mealList);
+    void Date::manageMealList(const std::list<Meal> &allMeals);
     std::list<std::string> getMealList() const; // To ensure safety, set it as const
     void buildGroceryList(std::map<std::string, double> &groceryList) const;
 
