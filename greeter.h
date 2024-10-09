@@ -24,6 +24,12 @@ enum class Option {
     Quit,
 };
 
+enum class OS {
+    Windows,
+    macOS,
+    Linux,
+};
+
 class PlanManager;
 class RecipeDatabase;
 
@@ -37,9 +43,19 @@ private:
     static inline PlanManager *planManager = nullptr;
     static inline RecipeDatabase *recipeDatabase = nullptr;
 
+#if WIN32 || _WIN32 || __WIN32__
+    static constexpr OS os = OS::Windows;
+#elif __APPLE__
+    static constexpr OS os = OS::macOS;
+#elif __linux__
+    static constexpr OS os = OS::Linux;
+#endif
+
     void printInitialMessage();
     void PrintMenu();
     Option getUserOption();
+
+    void clearScreen();
 };
 
 #endif

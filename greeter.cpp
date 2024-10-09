@@ -23,7 +23,9 @@ Greeter::Greeter(PlanManager &pm, RecipeDatabase &db) {
 void Greeter::run() {
     try {
         printInitialMessage();
+
         while (true) {
+            clearScreen();
             PrintMenu();
 
             switch (Option option = getUserOption(); option) {
@@ -54,7 +56,7 @@ void Greeter::run() {
 }
 
 void Greeter::printInitialMessage() {
-    std::string_view logo = R"(
+    constexpr std::string_view logo = R"(
     ..                                                     
    .= .+==:                                                
    -      :-.:-::                                          
@@ -87,8 +89,8 @@ void Greeter::printInitialMessage() {
 )";
 
     std::cout << logo << "\n\n";
-    std::cout << "================ IIKH ================\n";
-    std::cout << "Welcome to IIKH, the Interactive Intelligent Kitchen Helper\n";
+    std::cout << "=================== IIKH ===================\n";
+    std::cout << "Welcome to IIKH, the Interactive Intelligent Kitchen Helper\n\n";
     std::cout << "Press Return to begin\n";
     std::cin.ignore();
 }
@@ -126,5 +128,14 @@ Option Greeter::getUserOption() {
         default:
             std::cout << "Invalid option. Please try again." << std::endl;
         }
+    }
+}
+
+void Greeter::clearScreen() {
+    if constexpr (os == OS::Windows) {
+        system("cls");
+    }
+    else {
+        system("clear");
     }
 }
