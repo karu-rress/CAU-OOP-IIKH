@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <limits>
 
 #include "recipe_db.h"
 
@@ -26,7 +27,7 @@ RecipeDatabase::RecipeDatabase() {
         return;
 
     // Open the recipe database file
-    if (dbFile.open(dbPath / recipeFileName, ios::in | ios::binary);
+    if (dbFile.open(recipeFileName.data(), ios::in | ios::binary);
         !dbFile.is_open())
         return;
 
@@ -42,7 +43,7 @@ RecipeDatabase::RecipeDatabase() {
 // Destructor automatically saves the database to the file
 RecipeDatabase::~RecipeDatabase() {
     // Open the recipe database file
-    if (dbFile.open(dbPath / recipeFileName, ios::out | ios::binary);
+    if (dbFile.open(recipeFileName.data(), ios::out | ios::binary);
         !dbFile.is_open())
         return;
 
@@ -58,6 +59,7 @@ list<Recipe> RecipeDatabase::searchRecipes() const {
 
     // Get the keywords from the user
     string input;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     getline(cin, input);
     istringstream iss(input);
 

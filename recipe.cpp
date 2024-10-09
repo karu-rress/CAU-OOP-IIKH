@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 #include "recipe.h"
 
@@ -56,6 +57,7 @@ void Recipe::edit() {
 
     // input new instruction
     std::cout << "Enter instruction: ";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, instructions);
 
     // input new preptime

@@ -38,6 +38,7 @@ private:
     static inline RecipeDatabase *recipeDatabase = nullptr;
 
     void printInitialMessage();
+    void PrintMenu();
     Option getUserOption();
 };
 

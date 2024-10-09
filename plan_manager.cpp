@@ -36,11 +36,13 @@ namespace fs = std::filesystem;
 
 // Reads plans from the file
 PlanManager::PlanManager() {
+    std::cout << "PlanManager()" << std::endl;
+
     if (planPath = fs::current_path() / "data"; !fs::exists(planPath))
         return;
 
     // Open the plans file
-    if (planFile.open(planPath / planFileName, ios::in);
+    if (planFile.open(planFileName.data(), ios::in);
         !planFile.is_open())
         return;
 
@@ -94,8 +96,9 @@ PlanManager::PlanManager() {
 }
 
 PlanManager::~PlanManager() {
+    std::cout << "~PlanManager()" << std::endl;
     // Open the plans file
-    if (planFile.open(planPath / planFileName, std::ios::out);
+    if (planFile.open(fs::current_path() / planFileName, std::ios::out);
         !planFile.is_open()) {
         std::cerr << "file open failed." << std::endl;
         return;
@@ -170,7 +173,7 @@ void PlanManager::reviewPlans() {
 void PlanManager::createNewPlan() {
     cout << "Enter the date to make your plan (YYYY-MM-DD) : ";
     string date;
-
+    cin >> date;
     Date newDate(date);
     newDate.displayAndEdit();
     newDate.manageMeals();

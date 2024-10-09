@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <map>
 #include <sstream>
 
@@ -106,6 +107,7 @@ void Date::manageMeals() {
 
                 Meal meal;
                 string recipeNames;
+                cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
                 getline(cin, recipeNames);
 
                 for (istringstream iss(recipeNames); iss >> recipeNames;)

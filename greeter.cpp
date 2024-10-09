@@ -21,28 +21,35 @@ Greeter::Greeter(PlanManager &pm, RecipeDatabase &db) {
 }
 
 void Greeter::run() {
-    while (true) {
+    try {
         printInitialMessage();
+        while (true) {
+            PrintMenu();
 
-        switch (Option option = getUserOption(); option) {
-        case Option::SearchRecipes:
-            recipeDatabase->searchRecipes();
-            break;
-        case Option::AddNewRecipe:
-            recipeDatabase->addNewRecipe();
-            break;
-        case Option::EditRecipe:
-            recipeDatabase->editRecipe();
-            break;
-        case Option::ReviewPlans:
-            planManager->reviewPlans();
-            break;
-        case Option::CreateNewPlan:
-            planManager->createNewPlan();
-            break;
-        case Option::Quit:
-            exit(0);
+            switch (Option option = getUserOption(); option) {
+            case Option::SearchRecipes:
+                recipeDatabase->searchRecipes();
+                break;
+            case Option::AddNewRecipe:
+                recipeDatabase->addNewRecipe();
+                break;
+            case Option::EditRecipe:
+                recipeDatabase->editRecipe();
+                break;
+            case Option::ReviewPlans:
+                planManager->reviewPlans();
+                break;
+            case Option::CreateNewPlan:
+                planManager->createNewPlan();
+                break;
+            case Option::Quit:
+                return;
+            }
         }
+    } catch (const std::exception &e) {
+        std::cerr << "An error occurred: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "An unknown error occurred." << std::endl;
     }
 }
 
@@ -84,7 +91,9 @@ void Greeter::printInitialMessage() {
     std::cout << "Welcome to IIKH, the Interactive Intelligent Kitchen Helper\n";
     std::cout << "Press Return to begin\n";
     std::cin.ignore();
+}
 
+void Greeter::PrintMenu() {
     std::cout << "Please select an option:" << std::endl;
 
     std::cout << "1. Search recipes\n"
@@ -99,7 +108,9 @@ Option Greeter::getUserOption() {
     int option;
 
     while (true) {
-        switch (std::cin >> option; option) {
+        std::cin >> option;
+        std::cin.ignore();
+        switch (option) {
         case 1:
             return Option::SearchRecipes;
         case 2:
