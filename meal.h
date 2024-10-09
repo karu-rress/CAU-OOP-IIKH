@@ -31,6 +31,9 @@ public:
     // Return the complete grocery list for all recipes in the meal
     std::map<std::string, double> getGroceryList() const;
 
+    // Return the servings
+    int Meal::getServings();
+
 private:
     int servings; // Number of servings
     std::list<Recipe> recipes; // List of recipes included in the meal

@@ -61,3 +61,8 @@ std::map<std::string, double> Meal::getGroceryList() const {
 
     return groceryList;
 }
+
+// 7. return Servings (for plan_manager )
+int Meal::getServings() {
+    return servings;
+}
