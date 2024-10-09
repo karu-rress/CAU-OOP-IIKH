@@ -31,11 +31,11 @@ void Meal::displayMealInfo() const {
 void Meal::addRecipe(RecipeDatabase &db, const std::string &recipeName) {
     Recipe recipe = db.getRecipe(recipeName); // Get the recipe from RecipeDatabase
     recipes.push_back(recipe); // Add recipe to the meal
-}
 
-// Print the meal (recipe names)
-void Meal::printMeal() const {
-    for (auto &recipe : recipes) {
+
+// 4. Print the meal (recipe names) 
+void printMeal() {
+    for (auto& recipe : recipes) {
         std::cout << recipe.getName() << std::endl;
     }
 }
@@ -65,4 +65,9 @@ std::map<std::string, double> Meal::getGroceryList() const {
 // 7. return Servings (for plan_manager )
 int Meal::getServings() {
     return servings;
+}
+
+// 8. return name (for date)
+std::string Meal::getName() const {
+    return name;
 }

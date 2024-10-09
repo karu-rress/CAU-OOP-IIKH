@@ -12,6 +12,7 @@ class Meal {
 public:
     // Constructor
     Meal(int servings = 1);
+    Meal::Meal(std::string mealName) : name(mealName) {}
 
     // Adjust ingredient quantities based on the number of servings
     void adjustServings();
@@ -35,8 +36,9 @@ public:
     int Meal::getServings();
 
 private:
-    int servings; // Number of servings
-    std::list<Recipe> recipes; // List of recipes included in the meal
+    int servings;    
+    std::string name;            // Number of servings
+    std::list<Recipe> recipes;      // List of recipes included in the meal
 };
 
 #endif
