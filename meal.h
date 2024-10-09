@@ -1,11 +1,11 @@
 #ifndef _MEAL_H_
 #define _MEAL_H_
 
-#include <date.h>
 #include <list>
 #include <map>
 #include <string>
 
+#include "date.h"
 #include "greeter.h"
 #include "recipe_db.h"
 
@@ -21,7 +21,7 @@ public:
     std::string getName() const;
     std::list<Recipe> getRecipes() const;
     // Return the complete grocery list for all recipes in the meal
-    std::map<std::string, double> getGroceryList() const;
+    std::map<std::string, int> getGroceryList() const;
 
     // Adjust ingredient quantities based on the number of servings
     void adjustServings();
@@ -32,6 +32,10 @@ public:
     // Add a recipe to the meal from the database
     void addRecipe(const std::string &recipeName);
     void addRecipe(const Recipe &recipe);
+
+    // Remove a recipe from the meal
+    void removeRecipe(const std::string &recipeName);
+    void removeRecipe(const Recipe &recipe);
 
     // Print the meal (list of recipe names)
     [[deprecated("No reasons to use this")]]

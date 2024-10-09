@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "plan_manager.h"
+#include "recipe.h"
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -125,28 +126,56 @@ void PlanManager::reviewPlans() {
     for (auto &[oldDate, meal] : plans) {
         Date newDate = oldDate;
         newDate.displayAndEdit();
-        meal.displayMealInfo();
-        meal.getGroceryList();
 
-        newPlan[newDate] = meal;
+        for (Meal &m : meal) {
+            m.displayMealInfo();
+
+            cout << "Ingredients: \n";
+            for (const auto &[name, quantity] : m.getGroceryList()) {
+                cout << name << " (" << quantity << "g)\n";
+            }
+
+            cout << "If you want to edit meal, type either 1 or 2:\n"
+                 << "1. add recipe from meal\n"
+                 << "2. remove recipe from meal\n"
+                 << "3. quit\n"
+                 << endl;
+
+            int selection;
+            cin >> selection;
+
+            if (selection == 1) { // add recipe from meal
+                Recipe newRecipe;
+                newRecipe.edit();
+                m.addRecipe(newRecipe);
+            }
+            else if (selection == 2) { // remove recipe from meal
+                string recipeToRemove;
+                cout << "Enter the name of the recipe to remove: ";
+                cin >> recipeToRemove;
+                m.removeRecipe(recipeToRemove);
+            }
+            else {
+                break; // go to next meal (or return to main menu)
+            }
+
+            newPlan[newDate] = meal;
+        }
+
+        plans = newPlan;
+        return;
     }
-
-    plans = newPlan;
-    return;
 }
 
 void PlanManager::createNewPlan() {
-    int year, month, day;
+    cout << "Enter the date to make your plan (YYYY-MM-DD) : ";
+    string date;
 
-    cout << "Enter the date to make your plan like this format(2024 10 01) : ";
-    cin >> year >> month >> day;
+    Date newDate(date);
+    newDate.displayAndEdit();
+    newDate.manageMeals();
 
-    Date newDate(year, month, day); // 입력받은 날짜로 Date 인스턴스 생성.
-    newDate.displayAndEdit(); // Date에게 control 위임.
-
-    std::list<Meal> mealList;
-    std::list<std::string> mealNames;
-    newDate.manageMealList(mealNames); // manageMealList()가 list<string>을 argument로 받음.
+    std::list<Meal> mealList = newDate.getMeals();
     plans[newDate] = mealList;
 
     return;

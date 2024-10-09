@@ -63,82 +63,87 @@ void Date::displayAndEdit() {
     }
 }
 
-void Date::manageMealList(const list<string> &mealList) {
-    list<string> mealsNames;
-    for (const auto &meal : meals) {
-        auto mealNames = meal.getMeals(); // Get the meal name using a method of the Meal class.
-        mealsNames.insert(mealsNames.end(), mealNames.begin(), mealNames.end());
-    }
-
-    char choice;
-    do {
+void Date::manageMeals() {
+    while (true) {
         // Display current meals
-        cout << "Meals for " << year << "-" << month << "-" << date << endl;
+        cout << "Meals for " << getDateAsString() << endl;
 
-        if (!mealsNames.empty()) {
-            cout << "Meal list that is currently available for addition." << endl;
-            for (const auto &meal : mealsNames) {
-                cout << "- " << meal << endl;
-            }
-
-            cout << "\nWhat would you like to do? Choose one." << endl;
-            cout << "1. Add a meal\n";
-            cout << "2. Remove a meal\n";
-            cout << "3. Exit\n";
-            cout << "Enter your choice number: ";
-            cin >> choice;
-            cin.ignore();
-
-            if (choice == '1') {
-                cout << "Enter the name of the meal to add: ";
-                string newMeal;
-                getline(cin, newMeal);
-                auto it = find(mealList.begin(), mealList.end(), newMeal);
-                if (it != mealList.end()) {
-                    Meal newMealObject;
-                    // Add logic to add appropriate recipes here
-                    meals.push_back(newMealObject); // Add to actual meals vector
-                    cout << "Meal added successfully." << endl;
-                }
-                else {
-                    cout << "Meal not found in the provided meal list. Cannot add." << endl;
-                }
-            }
-            else if (choice == '2') {
-                cout << "Enter the name of the meal to remove: ";
-                string mealToRemove;
-                getline(cin, mealToRemove);
-                auto it = find_if(meals.begin(), meals.end(),
-                    [&mealToRemove](const Meal &meal) { return meal.getName() == mealToRemove; });
-                if (it != meals.end()) {
-                    meals.erase(it); // Delete from the actual meals vector
-                    cout << "Meal removed successfully." << endl;
-                }
-                else {
-                    cout << "Meal not found." << endl;
-                }
-            }
-            else if (choice == '3') {
-                cout << "Exiting meal management." << endl;
-            }
-            else {
-                cout << "Invalid choice. Please try again." << endl;
-            }
+        if (meals.empty()) {
+            cout << "No meals planned for this date." << endl;
         }
         else {
-            cout << "No meals in meal list. You can't add a meal, sorry." << endl;
-            choice = '3';
+            for (const auto &meal : meals) {
+                cout << "- " << meal.getName() << endl;
+            }
         }
-    } while (choice != '3');
-}
 
-list<string> Date::getMealList() const {
-    list<string> mealNames;
-    for (const auto &meal : meals) {
-        auto names = meal.getMeals(); // Get name from Meal object
-        mealNames.insert(mealNames.end(), names.begin(), names.end());
+        cout << "\nWhat would you like to do? Choose one.\n"
+             << "1. Add a meal\n"
+             << "2. Remove a meal\n"
+             << "3. Exit\n"
+             << "Enter your choice number: ";
+        char choice;
+        cin >> choice;
+        cin.ignore();
+
+        // Add a meal
+        if (choice == '1') {
+            cout << "Enter the name of the meal to add: ";
+
+            string newMeal;
+            cin >> newMeal;
+
+            bool found = false;
+            for (const auto &meal : meals) {
+                if (meal.getName() == newMeal) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                cout << "Add recipes to the meal, separated by space >> ";
+
+                Meal meal;
+                string recipeNames;
+                getline(cin, recipeNames);
+
+                for (istringstream iss(recipeNames); iss >> recipeNames;)
+                    meal.addRecipe(recipeNames);
+
+                meals.push_back(meal);
+                cout << "Meal added successfully." << endl;
+            }
+            else {
+                cout << "Already exists." << endl;
+            }
+        }
+        else if (choice == '2') {
+            cout << "Enter the name of the meal to remove: ";
+
+            string mealName;
+            cin >> mealName;
+
+            auto it = ranges::find_if(meals, [&mealName](const Meal &meal) {
+                return meal.getName() == mealName;
+            });
+
+            if (it != meals.end()) {
+                meals.erase(it);
+                cout << "Meal removed successfully." << endl;
+            }
+            else {
+                cout << "Meal not found." << endl;
+            }
+        }
+        else if (choice == '3') {
+            cout << "Exiting meal management." << endl;
+            return;
+        }
+        else {
+            cout << "Invalid choice. Please try again." << endl;
+        }
     }
-    return mealNames;
 }
 
 // Build grocery list

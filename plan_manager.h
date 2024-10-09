@@ -7,15 +7,19 @@
  *
  */
 
-#include <filesystem>
-#include <fstream>
-#include <map>
-
-#include "meal.h"
-#include "date.h"
-
 #ifndef _PLAN_MANAGER_H_
 #define _PLAN_MANAGER_H_
+
+#include <filesystem>
+#include <fstream>
+#include <list>
+#include <map>
+
+#include "date.h"
+#include "meal.h"
+
+class Date;
+class Meal;
 
 class PlanManager {
 public:

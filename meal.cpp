@@ -9,7 +9,7 @@
 // Constructors ============================
 //
 
-explicit Meal::Meal(int servings = 1)
+Meal::Meal(int servings = 1)
     : servings(servings) { }
 
 Meal::Meal(const std::string &mealName, int servings = 1)
@@ -38,8 +38,8 @@ std::list<Recipe> Meal::getRecipes() const {
 }
 
 // Return the complete grocery list for all recipes in the meal
-std::map<std::string, double> Meal::getGroceryList() const {
-    std::map<std::string, double> groceryList;
+std::map<std::string, int> Meal::getGroceryList() const {
+    std::map<std::string, int> groceryList;
 
     for (const auto &recipe : recipes) {
         for (const auto &[name, quantity] : recipe.getIngredients()) {
@@ -76,6 +76,16 @@ void Meal::addRecipe(const std::string &recipeName) {
 
 void Meal::addRecipe(const Recipe &recipe) {
     recipes.push_back(recipe);
+}
+
+void Meal::removeRecipe(const std::string &recipeName) {
+    recipes.remove_if([&recipeName](const Recipe &recipe) {
+        return recipe.getName() == recipeName;
+    });
+}
+
+void Meal::removeRecipe(const Recipe &recipe) {
+    recipes.remove(recipe);
 }
 
 // 4. Print the meal (recipe names)
