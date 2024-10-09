@@ -27,6 +27,9 @@ class RecipeDatabase {
 public:
     RecipeDatabase();
 
+    // Destructor automatically saves the database to the file
+    ~RecipeDatabase();
+    
     // Search recipes by keyword
     std::list<Recipe> searchRecipes() const;
 
@@ -47,8 +50,6 @@ public:
     void removeRecipe(const std::string &name);
     void removeRecipe(const Recipe &name);
 
-    // Destructor automatically saves the database to the file
-    ~RecipeDatabase();
 
 private:
     // Lists storing recipes and meals

@@ -39,6 +39,19 @@ RecipeDatabase::RecipeDatabase() {
     dbFile.close();
 }
 
+// Destructor automatically saves the database to the file
+RecipeDatabase::~RecipeDatabase() {
+    // Open the recipe database file
+    if (dbFile.open(dbPath / recipeFileName, ios::out | ios::binary);
+        !dbFile.is_open())
+        return;
+
+    // Write the recipes to the file
+    for (auto &recipe : recipes)
+        dbFile.write(reinterpret_cast<char *>(&recipe), sizeof(Recipe));
+    dbFile.close();
+}
+
 // Search recipes by keyword
 list<Recipe> RecipeDatabase::searchRecipes() const {
     cout << "Input keywords (separated by spaces): ";
@@ -143,15 +156,3 @@ void RecipeDatabase::removeRecipe(const Recipe &recipe) {
     recipes.remove(recipe);
 }
 
-// Destructor automatically saves the database to the file
-RecipeDatabase::~RecipeDatabase() {
-    // Open the recipe database file
-    if (dbFile.open(dbPath / recipeFileName, ios::out | ios::binary);
-        !dbFile.is_open())
-        return;
-
-    // Write the recipes to the file
-    for (auto &recipe : recipes)
-        dbFile.write(reinterpret_cast<char *>(&recipe), sizeof(Recipe));
-    dbFile.close();
-}

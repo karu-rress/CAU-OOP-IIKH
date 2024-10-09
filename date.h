@@ -3,15 +3,18 @@
 
 #include <list>
 #include <string>
-#include <vector>
+#include <string_view>
 
 #include "meal.h"
 
 class Date {
 public:
     Date(int year, int month, int day);
+    Date(const std::string &date);
 
     std::string getDateAsString() const;
+    std::list<Meal> getMeals() const;
+
     void displayAndEdit();
     void manageMealList(const std::list<std::string> &mealList);
     std::list<std::string> getMealList() const; // To ensure safety, set it as const
@@ -23,7 +26,7 @@ private:
     int date;
 
     std::string description;
-    std::vector<Meal> meals;
+    std::list<Meal> meals;
 };
 
 #endif

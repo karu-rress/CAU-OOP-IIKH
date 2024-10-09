@@ -23,63 +23,116 @@
 
 #include <fstream>
 #include <iostream>
+#include <iterator>
+#include <regex>
 #include <sstream>
 #include <vector>
 
 #include "plan_manager.h"
 
 using namespace std;
+namespace fs = std::filesystem;
 
-void PlanManager::showPlans() {
+// Reads plans from the file
+PlanManager::PlanManager() {
+    if (planPath = fs::current_path() / "data"; !fs::exists(planPath))
+        return;
 
-    // plan.txt 열기.
-    std::ifstream planFile("plan.txt");
-    if (!planFile.is_open()) {
-        std::cerr << "Failed to open plan.txt file." << std::endl;
+    // Open the plans file
+    if (planFile.open(planPath / planFileName, ios::in);
+        !planFile.is_open())
+        return;
+
+    // Read the plans from the file
+    std::string line;
+
+    std::regex dateRegex(R"((\d{4}-\d{2}-\d{2}))");
+    std::regex entryRegex(R"(\[(.*?)\]={([^}]+)})");
+    std::regex itemRegex(R"(([^,]+))");
+
+    while (std::getline(planFile, line)) {
+        // Regex to match date
+        std::smatch dateMatch;
+        regex_search(line, dateMatch, dateRegex);
+        Date date(dateMatch[1].str());
+
+        // Regex to match entries
+        std::smatch entryMatch;
+        std::list<Meal> meals;
+
+        while (std::regex_search(line.cbegin(), line.cend(), entryMatch, entryRegex)) {
+            // Meal 매칭
+            std::string mealName = entryMatch[1].str();
+            std::string items = entryMatch[2].str();
+
+            std::list<Recipe> recipes;
+            std::sregex_iterator itemBegin(items.cbegin(), items.cend(), itemRegex);
+            std::sregex_iterator itemEnd;
+
+            for (auto it = itemBegin; it != itemEnd; ++it) {
+                // Recipe 매칭
+                std::string item = (*it).str();
+
+                // Check if the item is a number
+                if (isdigit(item[0])) {
+                    int servings = std::stoi(item);
+                    meals.emplace_back(mealName, servings, recipes);
+                    recipes.clear();
+                    break;
+                }
+                else {
+                    recipes.push_back(item);
+                }
+            }
+        }
+
+        plans[date] = meals;
+    }
+
+    planFile.close();
+}
+
+PlanManager::~PlanManager() {
+    // Open the plans file
+    if (planFile.open(planPath / planFileName, std::ios::out);
+        !planFile.is_open()) {
+        std::cerr << "file open failed." << std::endl;
         return;
     }
 
-    std::string line;
-    RecipeDatabase recipeDb();
+    for (const auto &[date, meals] : plans) {
+        planFile << date.getDateAsString() << " ";
 
-    while (std::getline(planFile, line)) {
-        std::istringstream iss(line);
-        int year, month, day, servings;
+        for (const Meal &meal : meals) {
+            planFile << "[" << meal.getName() << "]={";
 
-        // 연도, 월, 일 파일로부터 추출.
-        iss >> year >> month >> day;
-        Date date(year, month, day); // Date 객체 생성
-        date.displayAndEdit();
-
-        std::vector<std::string> recipes;
-        std::string recipeName;
-
-        // 레시피와 인분수 추출.
-        while (iss >> recipeName) {
-            if (isdigit(recipeName[0])) {
-                servings = std::stoi(recipeName);
-                break;
+            for (const Recipe &recipe : meal.getRecipes()) {
+                planFile << recipe.getName() << ",";
             }
-            else {
-                recipes.push_back(recipeName); // 레시피 이름을 벡터에 추가
-            }
+
+            planFile << meal.getServings() << "}, ";
         }
-
-        // 추출한 인분수로 Meal 객체 생성.
-        Meal meal(servings);
-
-        // Meal 객체에 추출한 레시피들 추가.
-        for (const std::string &recipe : recipes) {
-            meal.addRecipeToMeal(recipeDB, recipe);
-        }
-
-        // 레시피 출력 함수 호출.(Meal에게 위임.)
-        meal.displayMealInfo();
-
-        // 이번 meal의 장바구니 목록하는 함수 호출.(Meal에게 위임.)
-        meal.getGroceryList();
+        planFile << endl;
     }
+
     planFile.close();
+}
+
+void PlanManager::reviewPlans() {
+    auto newPlan(plans);
+
+    // iterate plans and modify
+    for (auto &[oldDate, meal] : plans) {
+        Date newDate = oldDate;
+        newDate.displayAndEdit();
+        meal.displayMealInfo();
+        meal.getGroceryList();
+
+        newPlan[newDate] = meal;
+    }
+
+    plans = newPlan;
+    return;
 }
 
 void PlanManager::createNewPlan() {
@@ -91,28 +144,10 @@ void PlanManager::createNewPlan() {
     Date newDate(year, month, day); // 입력받은 날짜로 Date 인스턴스 생성.
     newDate.displayAndEdit(); // Date에게 control 위임.
 
-    std::ofstream planFile("plan.txt", std::ios::app);
-    if (planFile.is_open()) {
+    std::list<Meal> mealList;
+    std::list<std::string> mealNames;
+    newDate.manageMealList(mealNames); // manageMealList()가 list<string>을 argument로 받음.
+    plans[newDate] = mealList;
 
-        // 1. 파일에 날짜 입력.
-        planFile << year << " " << month << " " << day << " ";
-
-        Meal meal = newDate.getMealList();
-        std::list<std::string> recipesInMeal = meal.getMeals(); // meal로부터 레시피 담긴 string list 받기.
-        // 2. 파일에 레시피 입력.
-        for (const std::string &recipe : recipesInMeal) {
-            planFile << recipe << " ";
-        }
-
-        int servings = meal.getServings(); // meal로부터 servings 받기.
-        // 3. 파일에 인분수 입력.
-        planFile << servings << endl;
-
-        planFile.close();
-    }
-    else {
-        std::cerr << "file open failed." << std::endl;
-    }
-
-    return; // 일정 추가했으면 Greeter로 돌아감.
+    return;
 }

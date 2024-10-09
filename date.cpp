@@ -1,8 +1,8 @@
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <map>
 #include <sstream>
-#include <iomanip>
 
 #include "date.h"
 
@@ -14,12 +14,23 @@ Date::Date(int year, int month, int date)
     , date(date)
     , description("") {};
 
+// date format: "YYYY-MM-DD"
+Date::Date(const std::string &date) {
+    istringstream iss(date);
+    char delimiter;
+    iss >> year >> delimiter >> month >> delimiter >> this->date;
+}
+
 string Date::getDateAsString() const {
     ostringstream oss;
     oss << setw(2) << setfill('0'); // 출력 폭 설정
     oss << year << '-' << month << '-' << date;
 
     return oss.str();
+}
+
+list<Meal> Date::getMeals() const {
+    return meals;
 }
 
 // Edit discription

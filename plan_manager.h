@@ -7,15 +7,33 @@
  *
  */
 
+#include <filesystem>
+#include <fstream>
+#include <map>
+
+#include "meal.h"
+#include "date.h"
+
 #ifndef _PLAN_MANAGER_H_
 #define _PLAN_MANAGER_H_
 
 class PlanManager {
 public:
     PlanManager();
+    ~PlanManager();
 
-    void showPlans();
+    void reviewPlans();
     void createNewPlan();
+
+private:
+    // Plans file
+    static constexpr inline std::string_view planFileName = "plans.txt";
+
+    // stores path & file stream
+    std::filesystem::path planPath;
+    std::fstream planFile;
+
+    std::map<Date, std::list<Meal>> plans;
 };
 
 #endif

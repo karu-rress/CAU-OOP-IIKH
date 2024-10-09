@@ -16,6 +16,8 @@
 Greeter::Greeter(PlanManager &pm, RecipeDatabase &db) {
     planManager = &pm;
     recipeDatabase = &db;
+
+    Meal::setRecipeDatabase(db);
 }
 
 void Greeter::run() {
@@ -32,8 +34,8 @@ void Greeter::run() {
         case Option::EditRecipe:
             recipeDatabase->editRecipe();
             break;
-        case Option::ShowPlans:
-            planManager->showPlans();
+        case Option::ReviewPlans:
+            planManager->reviewPlans();
             break;
         case Option::CreateNewPlan:
             planManager->createNewPlan();
@@ -42,10 +44,6 @@ void Greeter::run() {
             exit(0);
         }
     }
-}
-
-RecipeDatabase &Greeter::getRecipeDatabase() {
-    return *recipeDatabase;
 }
 
 void Greeter::printInitialMessage() {
@@ -109,7 +107,7 @@ Option Greeter::getUserOption() {
         case 3:
             return Option::EditRecipe;
         case 4:
-            return Option::ShowPlans;
+            return Option::ReviewPlans;
         case 5:
             return Option::CreateNewPlan;
         case 6:

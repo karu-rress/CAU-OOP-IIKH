@@ -19,7 +19,7 @@ enum class Option {
     SearchRecipes = 1,
     AddNewRecipe,
     EditRecipe,
-    ShowPlans,
+    ReviewPlans,
     CreateNewPlan,
     Quit,
 };
@@ -30,12 +30,10 @@ public:
     Greeter(PlanManager &pm, RecipeDatabase &db);
     void run();
 
-    static RecipeDatabase &getRecipeDatabase();
-
 private:
     static inline PlanManager *planManager = nullptr;
     static inline RecipeDatabase *recipeDatabase = nullptr;
-    
+
     void printInitialMessage();
     Option getUserOption();
 };
