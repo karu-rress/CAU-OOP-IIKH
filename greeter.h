@@ -14,15 +14,17 @@
 #include "plan_manager.h"
 #include "recipe_db.h"
 
+// Options for the user
 enum class Option {
-    BrowseRecipe,
-    AddRecipe,
+    SearchRecipes = 1,
+    AddNewRecipe,
     EditRecipe,
-    ReviewPlan,
-    CreatePlan,
+    ShowPlans,
+    CreateNewPlan,
     Quit,
 };
 
+// Greeter class for IIKH
 class Greeter {
 public:
     Greeter(PlanManager &pm, RecipeDatabase &rdb);

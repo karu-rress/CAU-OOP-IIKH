@@ -112,7 +112,7 @@ Recipe RecipeDatabase::operator[](const string &name) const {
 }
 
 // Add a recipe
-void RecipeDatabase::addRecipe() {
+void RecipeDatabase::addNewRecipe() {
     Recipe recipe;
 
     recipe.edit();

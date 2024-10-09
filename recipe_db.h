@@ -38,7 +38,7 @@ public:
     Recipe operator[](const std::string &name) const;
 
     // Add a recipe
-    void addRecipe();
+    void addNewRecipe();
 
     // Edit a recipe
     void editRecipe();
