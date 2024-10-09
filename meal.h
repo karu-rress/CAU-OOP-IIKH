@@ -9,6 +9,8 @@
 #include "greeter.h"
 #include "recipe_db.h"
 
+class Recipe;
+
 class Meal {
 public:
     // Constructor
@@ -35,7 +37,7 @@ public:
 
     // Remove a recipe from the meal
     void removeRecipe(const std::string &recipeName);
-    void removeRecipe(const Recipe &recipe);
+    // void removeRecipe(Recipe &recipe);
 
     // Print the meal (list of recipe names)
     [[deprecated("No reasons to use this")]]
@@ -48,7 +50,7 @@ private:
     std::string name; // Name of the meal
     std::list<Recipe> recipes; // List of recipes included in the meal
 
-    static RecipeDatabase *recipeDB;
+    static inline RecipeDatabase *recipeDB = nullptr;
 };
 
 #endif

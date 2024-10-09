@@ -24,6 +24,9 @@ enum class Option {
     Quit,
 };
 
+class PlanManager;
+class RecipeDatabase;
+
 // Greeter class for IIKH
 class Greeter {
 public:

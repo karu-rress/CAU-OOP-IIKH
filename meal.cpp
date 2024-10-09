@@ -9,10 +9,10 @@
 // Constructors ============================
 //
 
-Meal::Meal(int servings = 1)
+Meal::Meal(int servings)
     : servings(servings) { }
 
-Meal::Meal(const std::string &mealName, int servings = 1)
+Meal::Meal(const std::string &mealName, int servings)
     : name(mealName)
     , servings(servings) { }
 
@@ -71,7 +71,7 @@ void Meal::displayMealInfo() const {
 
 // Add a recipe to the meal from the database
 void Meal::addRecipe(const std::string &recipeName) {
-    recipes.push_back(recipeDB->getRecipe(recipeName));
+    recipes.push_back(Meal::recipeDB->getRecipe(recipeName));
 }
 
 void Meal::addRecipe(const Recipe &recipe) {
@@ -82,10 +82,6 @@ void Meal::removeRecipe(const std::string &recipeName) {
     recipes.remove_if([&recipeName](const Recipe &recipe) {
         return recipe.getName() == recipeName;
     });
-}
-
-void Meal::removeRecipe(const Recipe &recipe) {
-    recipes.remove(recipe);
 }
 
 // 4. Print the meal (recipe names)
@@ -99,5 +95,5 @@ void Meal::printMeal() const {
 // 7. return Servings (for plan_manager )
 
 void Meal::setRecipeDatabase(RecipeDatabase *db) {
-    recipeDB = db;
+    Meal::recipeDB = db;
 }

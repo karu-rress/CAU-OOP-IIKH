@@ -152,7 +152,8 @@ void RecipeDatabase::removeRecipe(const string &name) {
 }
 
 // Remove a recipe (by object)
+/*
 void RecipeDatabase::removeRecipe(const Recipe &recipe) {
     recipes.remove(recipe);
 }
-
+*/

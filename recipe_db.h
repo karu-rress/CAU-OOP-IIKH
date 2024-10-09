@@ -22,6 +22,9 @@
 #include "meal.h"
 #include "recipe.h"
 
+class Meal;
+class Recipe;
+
 // Stores recipes and meals
 class RecipeDatabase {
 public:
@@ -29,7 +32,7 @@ public:
 
     // Destructor automatically saves the database to the file
     ~RecipeDatabase();
-    
+
     // Search recipes by keyword
     std::list<Recipe> searchRecipes() const;
 
@@ -48,8 +51,7 @@ public:
 
     // Remove a recipe
     void removeRecipe(const std::string &name);
-    void removeRecipe(const Recipe &name);
-
+    // void removeRecipe(const Recipe &name);
 
 private:
     // Lists storing recipes and meals

@@ -99,7 +99,7 @@ Option Greeter::getUserOption() {
     int option;
 
     while (true) {
-        switch (option) {
+        switch (std::cin >> option; option) {
         case 1:
             return Option::SearchRecipes;
         case 2:

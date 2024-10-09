@@ -14,6 +14,7 @@
 #include <fstream>
 #include <list>
 #include <map>
+#include <string_view>
 
 #include "date.h"
 #include "meal.h"
