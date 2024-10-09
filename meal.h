@@ -24,7 +24,7 @@ public:
     Meal(int servings = 1);
 
     // Adjust ingredient quantities based on the number of servings
-    void adjustServings(int newServings);
+    void adjustServings();
 
     // Display information about the meal
     void displayMealInfo();
@@ -40,6 +40,9 @@ public:
 
     // Return the complete grocery list for all recipes in the meal
     std::map<std::string, double> getGroceryList();
+
+    // Return the servings
+    int Meal::getServings();
 
 private:
     int servings;                  // Number of servings

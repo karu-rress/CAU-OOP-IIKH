@@ -7,11 +7,13 @@
 Meal::Meal(int servings = 1) : servings(servings) {}
 
 // 1. Adjust ingredient quantities based on the number of servings
-void Meal::adjustServings(int newServings) {
+void Meal::adjustServings() {
+    int newServings;
+    std::cout << "Enter the number of servings: ";
+    std::cin >> newServings;
+
+    // Update the servings for the meal
     servings = newServings;
-    for (auto& recipe : recipes) {
-        recipe.adjustForServings(servings);
-    }
 }
 
 // 2. Display information about the meal
@@ -52,15 +54,23 @@ std::list<std::string> Meal::getMeals() {
 // 6. Return the complete grocery list for all recipes in the meal
 std::map<std::string, double> Meal::getGroceryList() {
     std::map<std::string, double> groceryList;
-    std::cout << "Grocery List : " << std::endl;
-    for (auto& recipe : recipes) {
-        std::map<std::string, double> recipeGroceryList = recipe.getGroceryList();
-        for (auto& [ingredient, amount] : recipeGroceryList) {
-            groceryList[ingredient] += amount;  // Combine ingredients and amounts
+    std::cout << "Grocery List: " << std::endl;
+
+    // Get the ingredient list for each recipe
+    for (const auto& recipe : recipes) {
+        std::map<std::string, int> recipeIngredients = recipe.getIngredients(); 
+        for (const auto& [ingredient, amount] : recipeIngredients) {
+            groceryList[ingredient] += amount *servings;  // Sum up the ingredients and their amounts
         }
     }
-    for (auto& [ingredient, amount] : groceryList) {
+    // Print the complete grocery list
+    for (const auto& [ingredient, amount] : groceryList) {
         std::cout << " - " << ingredient << ": " << amount << std::endl;
     }
     return groceryList;
+}
+
+// 7. return Servings (for plan_manager )
+int Meal::getServings() {
+    return servings;
 }
