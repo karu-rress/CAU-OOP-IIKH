@@ -1,3 +1,6 @@
-.vscode/
+# Object files
 *.o
+
+# Executable files
 iikh
+iikh.exe
