@@ -10,8 +10,9 @@
 class Date {
 public:
     Date(int year, int month, int day);
-    Date(const std::string &date);
+    // Date(const std::string &date);
 
+    std::tuple<int, int, int> getDate() const;
     std::string getDateAsString() const;
     std::list<Meal> getMeals() const;
 

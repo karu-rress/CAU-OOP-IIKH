@@ -14,16 +14,13 @@ Date::Date(int year, int month, int date)
     , date(date)
     , description("") {};
 
-// date format: "YYYY-MM-DD"
-Date::Date(const std::string &date) {
-    istringstream iss(date);
-    char delimiter;
-    iss >> year >> delimiter >> month >> delimiter >> this->date;
+tuple<int, int, int> Date::getDate() const {
+    return make_tuple(m_year, m_month, m_day);
 }
 
 string Date::getDateAsString() const {
     ostringstream oss;
-    oss << setw(2) << setfill('0'); // 출력 폭 설정
+    oss << setw(2) << setfill('0');
     oss << year << '-' << month << '-' << date;
 
     return oss.str();
