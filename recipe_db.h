@@ -41,7 +41,7 @@ public:
     void addRecipe();
 
     // Edit a recipe
-    void editRecipe(const std::string &name);
+    void editRecipe();
 
     // Remove a recipe
     void removeRecipe(const std::string &name);

@@ -116,7 +116,12 @@ void RecipeDatabase::addRecipe() {
 }
 
 // TODO: check if this works
-void RecipeDatabase::editRecipe(const string &name) {
+void RecipeDatabase::editRecipe() {
+    // Get the recipe name from the user
+    cout << "Enter the name of the recipe to edit: ";
+    string name;
+    cin >> name;
+
     // Get the recipe by name and edit it
     Recipe &recipe = (*this)[name];
     recipe.edit();
