@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <string_view>
+#include <tuple>
 
 #include "meal.h"
 
@@ -16,7 +17,7 @@ public:
     std::string getDateAsString() const;
 
     void displayAndEdit();
-    void Date::manageMealList(const std::list<Meal> &allMeals);
+    void manageMealList(const std::list<Meal> &allMeals);
     std::list<std::string> getMealList() const; // To ensure safety, set it as const
     void buildGroceryList(std::map<std::string, double> &groceryList) const;
 
