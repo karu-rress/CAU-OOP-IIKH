@@ -1,7 +1,7 @@
 # Makefile for IIKH
 
 CC = g++
-CXXFLAGS = -std=c++17
+CXXFLAGS = -std=c++20
 
 date.o: date.h date.cpp
 	$(CC) $(CXXFLAGS) -c date.cpp
