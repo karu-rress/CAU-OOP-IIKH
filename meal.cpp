@@ -13,12 +13,12 @@ Meal::Meal(int servings)
     : servings(servings) { }
 
 Meal::Meal(const std::string &mealName, int servings)
-    : name(mealName)
-    , servings(servings) { }
+    : servings(servings)
+    , name(mealName) { }
 
 Meal::Meal(const std::string &mealName, int servings, std::list<Recipe> recipes)
-    : name(mealName)
-    , servings(servings)
+    : servings(servings)
+    , name(mealName)
     , recipes(recipes) { }
 
 //
