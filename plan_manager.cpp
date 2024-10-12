@@ -98,7 +98,7 @@ PlanManager::PlanManager() {
             recipes.clear();
         }
 
-        plans[date] = meals;
+        plans.emplace(date, meals);
     }
 
     planFile.close();
@@ -136,7 +136,7 @@ PlanManager::~PlanManager() {
 }
 
 void PlanManager::reviewPlans() {
-    auto newPlan(plans);
+    decltype(plans) newPlan;
 
     // iterate plans and modify
     for (auto &[oldDate, meal] : plans) {
@@ -146,19 +146,20 @@ void PlanManager::reviewPlans() {
         for (Meal &m : meal) {
             m.displayMealInfo();
 
-            cout << "Ingredients: \n";
+            cout << "Grocery list for this date: \n";
             for (const auto &[name, quantity] : m.getGroceryList()) {
-                cout << name << " (" << quantity << "g)\n";
+                cout << format("=> {} ({}g)\n", name, quantity);
             }
 
-            cout << "If you want to edit meal, type either 1 or 2:\n"
-                 << "1. add recipe from meal\n"
-                 << "2. remove recipe from meal\n"
-                 << "3. quit\n"
-                 << endl;
+            cout << "If you want to edit meal, type either 1 or 2:\n\n"
+                 << "  1. Add recipe from meal\n"
+                 << "  2. Remove recipe from meal\n"
+                 << "  3. Cancel\n\n"
+                 << "Input > ";
 
             int selection;
             cin >> selection;
+            cin.ignore();
 
             if (selection == 1) { // add recipe from meal
                 Recipe newRecipe;
@@ -169,18 +170,20 @@ void PlanManager::reviewPlans() {
                 string recipeToRemove;
                 cout << "Enter the name of the recipe to remove: ";
                 cin >> recipeToRemove;
+                cin.ignore();
                 m.removeRecipe(recipeToRemove);
             }
             else {
-                break; // go to next meal (or return to main menu)
+                break; // go to next meal
             }
-
-            newPlan[newDate] = meal;
+            newPlan[newDate].push_back(m);
         }
-
-        plans = newPlan;
-        return;
     }
+
+    plans = move(newPlan);
+
+    cout << "Operation completed." << endl;
+    cin.get();
 }
 
 void PlanManager::createNewPlan() {
