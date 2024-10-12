@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <format>
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -13,30 +14,30 @@ Date::Date(int year, int month, int date)
     : year(year)
     , month(month)
     , date(date)
-    , description("") {};
+    , memo("") {};
 
 // date format: "YYYY-MM-DD"
 Date::Date(const std::string &date) {
     istringstream iss(date);
-    char delimiter;
-    iss >> year >> delimiter >> month >> delimiter >> this->date;
+    char _; // discard '-'
+    iss >> year >> _ >> month >> _ >> this->date;
 }
 
 Date::Date(const std::string &date, const std::string &description)
     : Date(date) {
-    this->description = description;
+    this->memo = description;
 }
 
-string Date::getDateAsString() const {
-    ostringstream oss;
-    oss << setw(2) << setfill('0'); // 출력 폭 설정
-    oss << year << '-' << month << '-' << date;
-
-    return oss.str();
+[[nodiscard]] string Date::getDateAsString() const {
+    return format("{:04d}-{:02d}-{:02d}", year, month, date);
 }
 
-list<Meal> Date::getMeals() const {
+[[nodiscard]] list<Meal> Date::getMeals() const {
     return meals;
+}
+
+[[nodiscard]] string Date::getMemo() const {
+    return memo;
 }
 
 // Edit discription
@@ -44,8 +45,8 @@ void Date::displayAndEdit() {
     cout << "Date: " << getDateAsString() << endl;
 
     // Display current memo
-    if (!description.empty()) {
-        cout << "Memo: " << description << endl;
+    if (!memo.empty()) {
+        cout << "Memo: " << memo << endl;
     }
     else {
         cout << "There are currently no memo." << endl;
@@ -53,15 +54,16 @@ void Date::displayAndEdit() {
 
     // Prompt user to edit the memo
     cout << "Would you like to edit the memo? (Y/N): ";
+    
     char choice;
     cin >> choice;
     cin.ignore(); // Ignore any leftover newline character
 
     if (toupper(choice) == 'Y') {
         cout << "Enter new memo: ";
-        getline(cin, description);
+        getline(cin, memo);
 
-        cout << "New Memo: " << description << endl;
+        cout << "New Memo: " << memo << endl;
         cout << "Memo updated successfully." << endl;
     }
     else {

@@ -14,16 +14,17 @@ class Recipe;
 class Meal {
 public:
     // Constructor
+    
     explicit Meal(int servings = 1);
     Meal(const std::string &mealName, int servings = 1);
     Meal(const std::string &mealName, int servings, const std::list<Recipe> &recipes);
 
     // Getters
-    int getServings() const;
-    std::string getName() const;
-    std::list<Recipe> getRecipes() const;
+    [[nodiscard]] int getServings() const;
+    [[nodiscard]] std::string getName() const;
+    [[nodiscard]] std::list<Recipe> getRecipes() const;
     // Return the complete grocery list for all recipes in the meal
-    std::map<std::string, int> getGroceryList() const;
+    [[nodiscard]] std::map<std::string, int> getGroceryList() const;
 
     // Adjust ingredient quantities based on the number of servings
     void adjustServings();
@@ -37,7 +38,6 @@ public:
 
     // Remove a recipe from the meal
     void removeRecipe(const std::string &recipeName);
-    // void removeRecipe(Recipe &recipe);
 
     // Print the meal (list of recipe names)
     [[deprecated("No reasons to use this")]]

@@ -21,6 +21,7 @@
  *
  */
 
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -48,7 +49,7 @@ PlanManager::PlanManager() {
     std::string line;
 
     std::regex dateRegex(R"((\d{4}-\d{2}-\d{2}))");
-    std::regex memoRegex(R"(#\$(.*?)\#\$)");
+    std::regex memoRegex(R"(\$\#(.*?)\#\$)");
     std::regex entryRegex(R"(\[(.*?)\]=\{([^}]+)\})");
     std::regex itemRegex(R"(([^,]+))");
 
@@ -57,7 +58,7 @@ PlanManager::PlanManager() {
         std::smatch dateMatch, memoMatch;
         regex_search(line, dateMatch, dateRegex);
         regex_search(line, memoMatch, memoRegex);
-        
+
         std::string memo;
         if (memoMatch.size() > 1) {
             memo = memoMatch[1].str();
@@ -118,14 +119,15 @@ PlanManager::~PlanManager() {
     for (const auto &[date, meals] : plans) {
         planFile << date.getDateAsString() << " ";
 
+        if (!date.getMemo().empty())
+            planFile << format("#${}#$ ", date.getMemo());
+
         for (const Meal &meal : meals) {
-            planFile << "[" << meal.getName() << "]={";
-
+            planFile << format("[{}]={{", meal.getName());
             for (const Recipe &recipe : meal.getRecipes()) {
-                planFile << recipe.getName() << ",";
+                planFile << format("{},", recipe.getName());
             }
-
-            planFile << meal.getServings() << "}, ";
+            planFile << format("{}}}, ", meal.getServings());
         }
         planFile << endl;
     }

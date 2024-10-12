@@ -37,11 +37,11 @@ public:
     void searchRecipes() const;
 
     // Get a recipe by name
-    Recipe getRecipe(const std::string &name) const;
+    [[nodiscard]] Recipe getRecipe(const std::string &name) const;
 
     // Operator overloading for []
-    Recipe &operator[](const std::string &name);
-    Recipe operator[](const std::string &name) const;
+    [[nodiscard]] Recipe &operator[](const std::string &name);
+    [[nodiscard]] Recipe operator[](const std::string &name) const;
 
     // Add a recipe
     void addNewRecipe();

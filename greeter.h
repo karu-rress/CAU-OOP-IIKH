@@ -53,7 +53,7 @@ private:
 
     void printInitialMessage();
     void PrintMenu();
-    Option getUserOption();
+    [[nodiscard]] Option getUserOption();
 
     void clearScreen();
 };

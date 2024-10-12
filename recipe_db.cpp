@@ -9,6 +9,7 @@
  */
 
 #include <algorithm>
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -73,7 +74,7 @@ RecipeDatabase::~RecipeDatabase() {
     for (auto &recipe : recipes) {
         dbFile << recipe.getName() << endl;
         for (const auto &[name, quantity] : recipe.getIngredients())
-            dbFile << name << " " << quantity << " ";
+            dbFile << format("{} {}\n", name, quantity);
         dbFile << endl;
         dbFile << recipe.getInstructions() << endl;
         dbFile << recipe.getPrepTime() << endl;
@@ -136,7 +137,7 @@ void RecipeDatabase::searchRecipes() const {
 }
 
 // Get a recipe by name
-Recipe RecipeDatabase::getRecipe(const string &name) const {
+[[nodiscard]] Recipe RecipeDatabase::getRecipe(const string &name) const {
     // Search for the recipe by name
     for (auto &recipe : recipes) {
         if (recipe.getName() == name)
@@ -148,7 +149,7 @@ Recipe RecipeDatabase::getRecipe(const string &name) const {
 }
 
 // Operator overloading for []
-Recipe &RecipeDatabase::operator[](const string &name) {
+[[nodiscard]] Recipe &RecipeDatabase::operator[](const string &name) {
     for (auto &recipe : recipes) {
         if (recipe.getName() == name)
             return recipe;
@@ -160,7 +161,7 @@ Recipe &RecipeDatabase::operator[](const string &name) {
     return recipes.back();
 }
 
-Recipe RecipeDatabase::operator[](const string &name) const {
+[[nodiscard]] Recipe RecipeDatabase::operator[](const string &name) const {
     return getRecipe(name);
 }
 
@@ -199,8 +200,8 @@ void RecipeDatabase::editRecipe() {
         return;
     }
 
-    cout << "Edit or remove the recipe \'" << name << "\'?\n\n"
-         << "  1. Edit\n"
+    cout << format("Edit or remove the recipe '{}'\n\n", name);
+    cout << "  1. Edit\n"
          << "  2. Remove\n"
          << "  3. Cancel\n\n"
          << "Enter your choice > ";

@@ -107,7 +107,7 @@ void Greeter::PrintMenu() {
               << "Input > ";
 }
 
-Option Greeter::getUserOption() {
+[[nodiscard]] Option Greeter::getUserOption() {
     int option;
 
     while (true) {

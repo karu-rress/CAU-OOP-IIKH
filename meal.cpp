@@ -1,3 +1,4 @@
+#include <format>
 #include <iostream>
 
 #include "date.h"
@@ -25,20 +26,20 @@ Meal::Meal(const std::string &mealName, int servings, const std::list<Recipe> &r
 // Getters ================================
 //
 
-int Meal::getServings() const {
+[[nodiscard]] int Meal::getServings() const {
     return servings;
 }
 
-std::string Meal::getName() const {
+[[nodiscard]] std::string Meal::getName() const {
     return name;
 }
 
-std::list<Recipe> Meal::getRecipes() const {
+[[nodiscard]] std::list<Recipe> Meal::getRecipes() const {
     return recipes;
 }
 
 // Return the complete grocery list for all recipes in the meal
-std::map<std::string, int> Meal::getGroceryList() const {
+[[nodiscard]] std::map<std::string, int> Meal::getGroceryList() const {
     std::map<std::string, int> groceryList;
 
     for (const auto &recipe : recipes) {
@@ -59,12 +60,11 @@ void Meal::adjustServings() {
 
 // Display informations about the meal
 void Meal::displayMealInfo() const {
-    std::cout << "Information about " << name
-              << "(" << servings << " servings)" << std::endl;
+    std::cout << std::format("Information about {} ({} servings)\n", name, servings);
 
     std::cout << "Recipes included in this meal : " << std::endl;
     for (auto &recipe : recipes) {
-        std::cout << " - " << recipe.getName() << std::endl; // print name
+        std::cout << std::format(" - {}\n", recipe.getName()); // print name
         recipe.displayRecipe(); // print details
     }
 }
@@ -84,7 +84,7 @@ void Meal::removeRecipe(const std::string &recipeName) {
     });
 }
 
-// 4. Print the meal (recipe names)
+// Print the meal (recipe names)
 [[deprecated("No reasons to use this")]]
 void Meal::printMeal() const {
     for (auto &recipe : recipes) {
@@ -92,8 +92,7 @@ void Meal::printMeal() const {
     }
 }
 
-// 7. return Servings (for plan_manager )
-
+// return Servings (for plan_manager)
 void Meal::setRecipeDatabase(RecipeDatabase *db) {
     Meal::recipeDB = db;
 }

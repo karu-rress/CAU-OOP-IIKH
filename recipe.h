@@ -15,10 +15,10 @@ public:
     Recipe(std::string n, std::map<std::string, int> ingr, std::string instr, int time);
 
     // getter method
-    std::string getName() const;
-    std::map<std::string, int> getIngredients() const;
-    std::string getInstructions() const;
-    int getPrepTime() const;
+    [[nodiscard]] std::string getName() const;
+    [[nodiscard]] std::map<std::string, int> getIngredients() const;
+    [[nodiscard]] std::string getInstructions() const;
+    [[nodiscard]] int getPrepTime() const;
 
     // Edit method
     void edit();

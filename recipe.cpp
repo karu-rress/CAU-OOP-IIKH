@@ -1,3 +1,4 @@
+#include <format>
 #include <iostream>
 #include <limits>
 #include <sstream>
@@ -18,22 +19,22 @@ Recipe::Recipe(std::string n, std::map<std::string, int> ingr, std::string instr
     , prepTime(time) { }
 
 // Get name method
-std::string Recipe::getName() const {
+[[nodiscard]] std::string Recipe::getName() const {
     return name;
 }
 
 // Get ingredients method
-std::map<std::string, int> Recipe::getIngredients() const {
+[[nodiscard]] std::map<std::string, int> Recipe::getIngredients() const {
     return ingredients;
 }
 
 // Get instruction method
-std::string Recipe::getInstructions() const {
+[[nodiscard]] std::string Recipe::getInstructions() const {
     return instructions;
 }
 
 // Get preptime method
-int Recipe::getPrepTime() const {
+[[nodiscard]] int Recipe::getPrepTime() const {
     return prepTime;
 }
 
@@ -41,7 +42,7 @@ int Recipe::getPrepTime() const {
 void Recipe::edit() {
     ingredients.clear();
 
-    std::cout << "Editing Recipe: " << name << std::endl << std::endl;
+    std::cout << std::format("Editing Recipe: {}\n\n", name);
     std::cout << "Enter ingredients (format: egg 100 flour 200 ...): ";
 
     std::string line;
@@ -49,10 +50,10 @@ void Recipe::edit() {
     std::getline(std::cin, line);
 
     std::istringstream iss(line);
-    
+
     std::string name;
     int quantity;
-    
+
     while (iss >> name >> quantity) {
         ingredients[name] = quantity;
     }
@@ -69,10 +70,10 @@ void Recipe::edit() {
 // Display method
 void Recipe::displayRecipe() const {
     std::cout << "Recipe Name: " << name << "\n";
-    std::cout << "Ingredients: \n";
+    std::cout << "  Ingredients: \n";
     for (const auto &[name, quantity] : ingredients) {
-        std::cout << "\t" << name << ": " << quantity << "g\n";
+        std::cout << std::format("    {}: {}g\n", name, quantity);
     }
-    std::cout << "Instructions: " << instructions << "\n";
-    std::cout << "Preparation Time: " << prepTime << " minutes\n";
+    std::cout << std::format("  Instructions: {}\n", instructions);
+    std::cout << std::format("  Preparation Time: {} minutes\n", prepTime);
 }

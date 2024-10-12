@@ -15,16 +15,16 @@ public:
     Date(const std::string &date);
     Date(const std::string &date, const std::string &description);
 
-    std::string getDateAsString() const;
-    std::list<Meal> getMeals() const;
+    [[nodiscard]] std::string getDateAsString() const;
+    [[nodiscard]] std::list<Meal> getMeals() const;
+    [[nodiscard]] std::string getMemo() const;
 
     void displayAndEdit();
     void manageMeals();
     void buildGroceryList(std::map<std::string, double> &groceryList) const;
 
     bool operator<(const Date &rhs) const {
-        return year < rhs.year || (year == rhs.year && month < rhs.month) ||
-               (year == rhs.year && month == rhs.month && date < rhs.date);
+        return year < rhs.year || (year == rhs.year && month < rhs.month) || (year == rhs.year && month == rhs.month && date < rhs.date);
     }
 
 private:
@@ -32,7 +32,7 @@ private:
     int month;
     int date;
 
-    std::string description;
+    std::string memo;
     std::list<Meal> meals;
 };
 
