@@ -138,6 +138,8 @@ PlanManager::~PlanManager() {
 }
 
 void PlanManager::reviewPlans() {
+    auto newPlans = plans;
+
     // iterate plans and modify
     for (auto &[oldDate, meal] : plans) {
         Date newDate = oldDate;
@@ -188,14 +190,12 @@ void PlanManager::reviewPlans() {
             else {
                 goto EXIT;
             }
-
-            erase_if(plans,[&oldDate](const auto &p) {
-                const auto& [date, _] = p;
-                return date.getDate() == oldDate.getDate();
-            });
-            plans[newDate].push_back(m);
         }
+
+        if (newPlans.emplace(newDate, meal); newDate != oldDate)
+            newPlans.erase(oldDate);
     }
+    plans = newPlans;
 EXIT:
 
     cout << "Press Return to continue..." << endl;

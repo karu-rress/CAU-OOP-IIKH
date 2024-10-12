@@ -32,6 +32,8 @@ public:
             || (year == rhs.year && month == rhs.month && date < rhs.date);
     }
 
+    bool operator==(const Date&) const = default;
+
 private:
     int year;
     int month;

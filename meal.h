@@ -43,7 +43,11 @@ public:
     [[deprecated("Use displayMealInfo() instead")]]
     void printMeal() const;
 
+    // Link the recipe database
     static void setRecipeDatabase(RecipeDatabase *db);
+
+    // Equality operator (default implementation)
+    bool operator==(const Meal &rhs) const = default;
 
 private:
     int servings; // Number of servings

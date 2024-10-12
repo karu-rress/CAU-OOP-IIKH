@@ -26,6 +26,8 @@ public:
     // Display method
     void displayRecipe() const;
 
+    bool operator==(const Recipe &rhs) const = default;
+
 private:
     std::string name; // recipe name
     std::map<std::string, int> ingredients; // ingredients (name, quantity in grams)
