@@ -1,59 +1,68 @@
-#include "recipe.h"
+#include <format>
 #include <iostream>
+#include <limits>
+#include <sstream>
 
-//Recipe default constructor
-Recipe::Recipe() {}
+#include "recipe.h"
 
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
+Recipe::Recipe(std::string n)
+    : name(n)
+    , ingredients()
+    , instructions("")
+    , prepTime(0) { }
+
 Recipe::Recipe(std::string n, std::map<std::string, int> ingr, std::string instr, int time)
-    : name(n), ingredients(ingr), instructions(instr), prepTime(time) {}
+    : name(n)
+    , ingredients(ingr)
+    , instructions(instr)
+    , prepTime(time) { }
 
 // Get name method
-std::string Recipe::getName() const {
+[[nodiscard]] std::string Recipe::getName() const {
     return name;
 }
 
 // Get ingredients method
-std::map<std::string, int> Recipe::getIngredients() const {
+[[nodiscard]] std::map<std::string, int> Recipe::getIngredients() const {
     return ingredients;
 }
 
 // Get instruction method
-std::string Recipe::getInstruction() const {
+[[nodiscard]] std::string Recipe::getInstructions() const {
     return instructions;
 }
 
 // Get preptime method
-int Recipe::getPrepTime() const {
+[[nodiscard]] int Recipe::getPrepTime() const {
     return prepTime;
 }
 
 // Edit method
 void Recipe::edit() {
-    std::cout << "Editing Recipe: " << name << std::endl;
+    ingredients.clear();
 
     // input new ingredients
     std::cout << "Enter ingredients (format: egg 100 flour 200 ...): ";
-    std::map<std::string, int> newIngredients;
+
+    std::string line;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::getline(std::cin, line);
+
+    std::istringstream iss(line);
+
     std::string name;
     int quantity;
 
-    while (std::cin >> name >> quantity) {
-        newIngredients[name] = quantity;
-        if (std::cin.peek() == '\n') {
-            std::cin.ignore();
-            break;
-        }
+    while (iss >> name >> quantity) {
+        ingredients[name] = quantity;
     }
-    ingredients = std::move(newIngredients);
 
     // input new instruction
-    std::string newInstruction;
     std::cout << "Enter instruction: ";
-    std::getline(std::cin, newInstruction); 
-    instructions = newInstruction;
+    std::getline(std::cin, instructions);
 
-     // input new preptime
+    // input new preptime
     std::cout << "Enter preparation time (minutes): ";
     std::cin >> prepTime;
     std::cin.ignore(); 
@@ -62,10 +71,10 @@ void Recipe::edit() {
 // Display method
 void Recipe::displayRecipe() const {
     std::cout << "Recipe Name: " << name << "\n";
-    std::cout << "Ingredients: \n";
-    for (const auto& ingredient : ingredients) {
-        std::cout << ingredient.first << ": " << ingredient.second << "g\n";  
+    std::cout << "  Ingredients: \n";
+    for (const auto &[name, quantity] : ingredients) {
+        std::cout << std::format("    {}: {}g\n", name, quantity);
     }
-    std::cout << "Instructions: " << instructions << "\n";  
-    std::cout << "Preparation Time: " << prepTime << " minutes\n";
+    std::cout << std::format("  Instructions: {}\n", instructions);
+    std::cout << std::format("  Preparation Time: {} minutes\n", prepTime);
 }

@@ -1,43 +1,44 @@
-/*
-
-Date Collab orators
-Plan Manager
-Meal
-Maintain information ab out sp eci c date
-Date(year, month, day){create new date
-DisplayAndEdit(){display date information
-in window allowing user to edit entries
-BuildGro ceryList(List &){add items from
-all meals to gro cery li
-
-*/
-
 #ifndef _DATE_H_
 #define _DATE_H_
 
-#include <string>
 #include <list>
+#include <string>
+#include <string_view>
+#include <tuple>
 
-class Date
-{
+#include "meal.h"
+
+class Meal;
+
+class Date {
 public:
     Date(int year, int month, int day);
+    Date(const std::string &date);
+    Date(const std::string &date, const std::string &description);
+
+    [[nodiscard]] std::tuple<int, int, int> getDate() const;
+    [[nodiscard]] std::string getDateAsString() const;
+    [[nodiscard]] std::list<Meal> getMeals() const;
+    [[nodiscard]] std::string getMemo() const;
 
     void displayAndEdit();
-    void buildGroceryList(const std::list<std::string> &);
+    void manageMeals();
+
+    void buildGroceryList(std::map<std::string, double> &groceryList) const;
+
+    bool operator<(const Date &rhs) const {
+        return year < rhs.year
+            || (year == rhs.year && month < rhs.month)
+            || (year == rhs.year && month == rhs.month && date < rhs.date);
+    }
 
 private:
-    int m_year;
-    int m_month;
-    int m_day;
+    int year;
+    int month;
+    int date;
 
-    std::string description;
-    std::list<std::string> groceryList;
+    std::string memo;
+    std::list<Meal> meals;
 };
 
-void Date::displayAndEdit() {
-
-}
-
 #endif
-
