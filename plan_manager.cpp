@@ -120,7 +120,7 @@ PlanManager::~PlanManager() {
         planFile << date.getDateAsString() << " ";
 
         if (!date.getMemo().empty())
-            planFile << format("#${}#$ ", date.getMemo());
+            planFile << format("$#{}#$ ", date.getMemo());
 
         for (const Meal &meal : meals) {
             planFile << format("[{}]={{", meal.getName());
