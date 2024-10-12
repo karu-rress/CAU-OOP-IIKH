@@ -21,6 +21,7 @@
  *
  */
 
+#include <algorithm>
 #include <format>
 #include <fstream>
 #include <iostream>
@@ -98,7 +99,8 @@ PlanManager::PlanManager() {
             recipes.clear();
         }
 
-        plans[date] = meals;
+        // using emplace as it is first insertion
+        plans.emplace(date, meals);
     }
 
     planFile.close();
@@ -136,28 +138,33 @@ PlanManager::~PlanManager() {
 }
 
 void PlanManager::reviewPlans() {
-    auto newPlan(plans);
-
     // iterate plans and modify
     for (auto &[oldDate, meal] : plans) {
         Date newDate = oldDate;
-         newDate.displayAndEdit();
+        newDate.displayAndEdit();
+
+        cout << "Meals: ";
+        ranges::for_each(meal, [](const Meal &m) { cout << m.getName() << ", "; });
+        cout << "\b\b \n\n";
+
         for (Meal &m : meal) {
             m.displayMealInfo();
 
-            cout << "Ingredients: \n";
+            cout << "Grocery list for this date: \n";
             for (const auto &[name, quantity] : m.getGroceryList()) {
-                cout << name << " (" << quantity << "g)\n";
+                cout << format("=> {} ({}g)\n", name, quantity);
             }
 
-            cout << "If you want to edit meal, type either 1 or 2:\n"
-                 << "1. add recipe from meal\n"
-                 << "2. remove recipe from meal\n"
-                 << "3. quit\n"
-                 << endl;
+            cout << "If you want to edit meal, type either 1 or 2:\n\n"
+                 << "  1. Add recipe from meal\n"
+                 << "  2. Remove recipe from meal\n"
+                 << "  3. Cancel (Go to next meal/date)\n"
+                 << "  4. Return to main menu\n\n"
+                 << "Input > ";
 
             int selection;
             cin >> selection;
+            cin.ignore();
 
             if (selection == 1) { // add recipe from meal
                 Recipe newRecipe;
@@ -165,22 +172,34 @@ void PlanManager::reviewPlans() {
                 m.addRecipe(newRecipe);
             }
             else if (selection == 2) { // remove recipe from meal
+                try {
                 string recipeToRemove;
                 cout << "Enter the name of the recipe to remove: ";
                 cin >> recipeToRemove;
                 m.removeRecipe(recipeToRemove);
+                } catch (const exception &e) {
+                    cerr << e.what() << endl;
+                    cin.get();
+                }
+            }
+            else if (selection == 3) {
+                continue;
             }
             else {
-                // go to next meal 
+                goto EXIT;
             }
-            newPlan[newDate] = meal;
+
+            erase_if(plans,[&oldDate](const auto &p) {
+                const auto& [date, _] = p;
+                return date.getDate() == oldDate.getDate();
+            });
+            plans[newDate].push_back(m);
         }
-
-        
     }
-    plans = newPlan;
-    return; //return to main menu
+EXIT:
 
+    cout << "Press Return to continue..." << endl;
+    cin.get();
 }
 
 void PlanManager::createNewPlan() {

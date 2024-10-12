@@ -29,6 +29,10 @@ Date::Date(const std::string &date, const std::string &description)
     this->memo = description;
 }
 
+[[nodiscard]] std::tuple<int, int, int> Date::getDate() const {
+    return {year, month, date};
+}
+
 [[nodiscard]] string Date::getDateAsString() const {
     return format("{:04d}-{:02d}-{:02d}", year, month, date);
 }
@@ -43,17 +47,11 @@ Date::Date(const std::string &date, const std::string &description)
 
 // Edit discription
 void Date::displayAndEdit() {
-    cout << "Date: " << getDateAsString() << endl;
+    cout << format("\n====== {} ({}) ======\n",
+        getDateAsString(),
+        memo.empty() ? "No memo" : memo);
 
-    // Display current memo
-    if (!memo.empty()) {
-        cout << "Memo: " << memo << endl;
-    }
-    else {
-        cout << "There are currently no memo." << endl;
-    }
-
-    // Prompt user to edit the memo
+    // ask for edit
     cout << "Would you like to edit the memo? (Y/N): ";
 
     char choice;
@@ -65,10 +63,10 @@ void Date::displayAndEdit() {
         getline(cin, memo);
 
         cout << "New Memo: " << memo << endl;
-        cout << "Memo updated successfully." << endl;
+        cout << "Memo updated successfully.\n\n";
     }
     else {
-        cout << "No changes made to the memo" << endl;
+        cout << "No changes made to the memo.\n\n";
     }
 }
 
@@ -122,7 +120,7 @@ void Date::manageMeals() {
                 cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
                 getline(cin, recipeNames);
 
-                for (istringstream iss(recipeNames); iss >> recipeNames;) {    
+                for (istringstream iss(recipeNames); iss >> recipeNames;) {
                     meal.addRecipe(recipeNames);
                     // std::cout << "Recipe added: " << recipeNames << std::endl;
                 }

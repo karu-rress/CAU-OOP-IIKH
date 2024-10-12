@@ -173,6 +173,15 @@ void RecipeDatabase::addNewRecipe() {
     string name;
     cin >> name;
 
+    // Check if the recipe already exists
+    if (getRecipe(name).getName() == name) {
+        cout << "\nRecipe already exists. Aborting!\n"
+             << "Press Return to continue...";
+        cin.ignore();
+        cin.get();
+        return;
+    }
+
     Recipe recipe(name);
     recipe.edit();
     recipes.push_back(recipe);
