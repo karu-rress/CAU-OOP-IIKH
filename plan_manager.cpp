@@ -142,7 +142,6 @@ void PlanManager::reviewPlans() {
     for (auto &[oldDate, meal] : plans) {
         Date newDate = oldDate;
         newDate.displayAndEdit();
-
         for (Meal &m : meal) {
             m.displayMealInfo();
 
