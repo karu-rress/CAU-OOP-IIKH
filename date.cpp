@@ -84,6 +84,7 @@ void Date::manageMeals() {
             cout << "Current meal list for this date:" << endl;
             for (const auto &meal : meals) {
                 cout << "- " << meal.getName() << endl;
+                meal.displayMealInfo();
             }
         }
 
@@ -114,14 +115,17 @@ void Date::manageMeals() {
             if (!found) {
                 cout << "Add recipes to the meal, separated by space >> ";
 
-                Meal meal;
+                // Meal meal;
+                string mealName = newMeal;
+                Meal meal(mealName);
                 string recipeNames;
                 cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
                 getline(cin, recipeNames);
 
-                for (istringstream iss(recipeNames); iss >> recipeNames;)
+                for (istringstream iss(recipeNames); iss >> recipeNames;) {    
                     meal.addRecipe(recipeNames);
-
+                    // std::cout << "Recipe added: " << recipeNames << std::endl;
+                }
                 meals.push_back(meal);
                 cout << "Meal added successfully." << endl;
             }
