@@ -139,21 +139,22 @@ PlanManager::~PlanManager() {
 
 void PlanManager::reviewPlans() {
     auto newPlans = plans;
+    bool is_break = false;
 
     // iterate plans and modify
-    for (auto &[oldDate, meal] : plans) {
+    for (auto &[oldDate, meals] : plans) {
         Date newDate = oldDate;
         newDate.displayAndEdit();
 
         cout << "Meals: ";
-        ranges::for_each(meal, [](const Meal &m) { cout << m.getName() << ", "; });
+        ranges::for_each(meals, [](const Meal &m) { cout << m.getName() << ", "; });
         cout << "\b\b \n\n";
 
-        for (Meal &m : meal) {
-            m.displayMealInfo();
+        for (Meal &meal : meals) {
+            meal.displayMealInfo();
 
             cout << "Grocery list for this date: \n";
-            for (const auto &[name, quantity] : m.getGroceryList()) {
+            for (const auto &[name, quantity] : meal.getGroceryList()) {
                 cout << format("=> {} ({}g)\n", name, quantity);
             }
 
@@ -171,35 +172,32 @@ void PlanManager::reviewPlans() {
             if (selection == 1) { // add recipe from meal
                 Recipe newRecipe;
                 newRecipe.edit();
-                m.addRecipe(newRecipe);
+                meal.addRecipe(newRecipe);
             }
             else if (selection == 2) { // remove recipe from meal
-                try {
                 string recipeToRemove;
                 cout << "Enter the name of the recipe to remove: ";
                 cin >> recipeToRemove;
-                m.removeRecipe(recipeToRemove);
-                } catch (const exception &e) {
-                    cerr << e.what() << endl;
-                    cin.get();
-                }
+                meal.removeRecipe(recipeToRemove);
             }
             else if (selection == 3) {
                 continue;
             }
             else {
-                goto EXIT;
+                is_break = true;
             }
-        }
 
-        if (newPlans.emplace(newDate, meal); newDate != oldDate)
-            newPlans.erase(oldDate);
-    }
+            if (newPlans.insert_or_assign(newDate, meals); newDate != oldDate)
+                newPlans.erase(oldDate);
+
+            if (is_break)
+                break;
+        } // iterate meals
+
+        if (is_break)
+            break;
+    } // iterate plans
     plans = newPlans;
-EXIT:
-
-    cout << "Press Return to continue..." << endl;
-    cin.get();
 }
 
 void PlanManager::createNewPlan() {
