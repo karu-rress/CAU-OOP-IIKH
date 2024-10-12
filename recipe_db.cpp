@@ -74,7 +74,7 @@ RecipeDatabase::~RecipeDatabase() {
     for (auto &recipe : recipes) {
         dbFile << recipe.getName() << endl;
         for (const auto &[name, quantity] : recipe.getIngredients())
-            dbFile << format("{} {}\n", name, quantity);
+            dbFile << format("{} {} ", name, quantity);
         dbFile << endl;
         dbFile << recipe.getInstructions() << endl;
         dbFile << recipe.getPrepTime() << endl;
