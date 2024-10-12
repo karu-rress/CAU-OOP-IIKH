@@ -204,7 +204,15 @@ void PlanManager::createNewPlan() {
     cout << "Enter the date to make your plan (YYYY-MM-DD) : ";
     string date;
     cin >> date;
+
     Date newDate(date);
+    if (plans.contains(newDate)) {
+        cout << "Already exists. Aborting!\n"
+             << "Press Return to continue...";
+        cin.ignore();
+        cin.get();
+        return;
+    }
     newDate.displayAndEdit();
     newDate.manageMeals();
 

@@ -86,10 +86,10 @@ void Date::manageMeals() {
             }
         }
 
-        cout << "\nWhat would you like to do? Choose one.\n"
-             << "1. Add a meal\n"
-             << "2. Remove a meal\n"
-             << "3. Exit\n"
+        cout << "\nWhat would you like to do? Choose one.\n\n"
+             << "  1. Add a meal\n"
+             << "  2. Remove a meal\n"
+             << "  3. Exit\n\n"
              << "Enter your choice number: ";
         char choice;
         cin >> choice;
