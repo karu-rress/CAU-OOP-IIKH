@@ -52,7 +52,7 @@ private:
 #endif
 
     void printInitialMessage();
-    void PrintMenu();
+    void printMenu();
     [[nodiscard]] Option getUserOption();
 
     void clearScreen();

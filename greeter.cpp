@@ -24,7 +24,7 @@ void Greeter::run() {
 
         while (true) {
             clearScreen();
-            PrintMenu();
+            printMenu();
 
             switch (Option option = getUserOption(); option) {
             case Option::SearchRecipes:
@@ -93,7 +93,7 @@ void Greeter::printInitialMessage() {
     std::cin.get();
 }
 
-void Greeter::PrintMenu() {
+void Greeter::printMenu() {
     std::cout << "Please select an option\n\n";
 
     std::cout << "  1. Search recipes\n"
