@@ -16,7 +16,7 @@ public:
     // Constructor
     explicit Meal(int servings = 1);
     Meal(const std::string &mealName, int servings = 1);
-    Meal(const std::string &mealName, int servings, std::list<Recipe> recipes);
+    Meal(const std::string &mealName, int servings, const std::list<Recipe> &recipes);
 
     // Getters
     int getServings() const;

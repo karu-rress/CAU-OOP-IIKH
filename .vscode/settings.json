@@ -88,5 +88,6 @@
   },
   "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: WebKit, PointerAlignment: Right, BreakBeforeBraces: Custom, BraceWrapping: { BeforeElse: True }, BreakConstructorInitializersStyle: BeforeComma }",
   "C_Cpp.vcFormat.indent.braces": false,
-  "C_Cpp.clang_format_sortIncludes": true
+  "C_Cpp.clang_format_sortIncludes": true,
+  "C_Cpp.default.compilerPath": "/usr/bin/g++"
 }

@@ -9,6 +9,7 @@
  */
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -23,33 +24,63 @@ using namespace std;
 RecipeDatabase::RecipeDatabase() {
     // Get the path to the database file
     // If directory doesn't exist, return
-    if (dbPath = fs::current_path() / "data"; fs::exists(dbPath) == false)
+    if (dbPath = fs::current_path() / "data"; !fs::exists(dbPath))
         return;
 
     // Open the recipe database file
-    if (dbFile.open(recipeFileName.data(), ios::in | ios::binary);
+    if (dbFile.open(dbPath / recipeFileName, ios::in);
         !dbFile.is_open())
         return;
 
     // Read the recipes from the file
-    while (dbFile.eof() == false) {
-        Recipe recipe;
-        dbFile.read(reinterpret_cast<char *>(&recipe), sizeof(Recipe));
-        recipes.push_back(recipe);
+    string name;
+    map<string, int> ingredients;
+    string instructions;
+
+    string ingredientName;
+    int quantity;
+
+    // read lines from file
+    string line;
+    while (getline(dbFile, name)) {
+        getline(dbFile, line);
+        istringstream iss(line);
+        while (iss >> ingredientName >> quantity)
+            ingredients[ingredientName] = quantity;
+
+        getline(dbFile, instructions);
+        getline(dbFile, line);
+
+        recipes.emplace_back(name, ingredients, instructions, stoi(line));
+        ingredients.clear();
     }
+
+    for (auto &recipe : recipes)
+        recipe.displayRecipe();
+
     dbFile.close();
 }
 
 // Destructor automatically saves the database to the file
 RecipeDatabase::~RecipeDatabase() {
+    // Create directory if not exists
+    if (dbPath = fs::current_path() / "data"; !fs::exists(dbPath))
+        fs::create_directory(dbPath);
+
     // Open the recipe database file
-    if (dbFile.open(recipeFileName.data(), ios::out | ios::binary);
+    if (dbFile.open(dbPath / recipeFileName, ios::out);
         !dbFile.is_open())
         return;
 
     // Write the recipes to the file
-    for (auto &recipe : recipes)
-        dbFile.write(reinterpret_cast<char *>(&recipe), sizeof(Recipe));
+    for (auto &recipe : recipes) {
+        dbFile << recipe.getName() << endl;
+        for (const auto &[name, quantity] : recipe.getIngredients())
+            dbFile << name << " " << quantity << " ";
+        dbFile << endl;
+        dbFile << recipe.getInstructions() << endl;
+        dbFile << recipe.getPrepTime() << endl;
+    }
     dbFile.close();
 }
 

@@ -13,6 +13,7 @@ class Date {
 public:
     Date(int year, int month, int day);
     Date(const std::string &date);
+    Date(const std::string &date, const std::string &description);
 
     std::string getDateAsString() const;
     std::list<Meal> getMeals() const;

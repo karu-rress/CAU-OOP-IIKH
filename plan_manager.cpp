@@ -36,13 +36,11 @@ namespace fs = std::filesystem;
 
 // Reads plans from the file
 PlanManager::PlanManager() {
-    std::cout << "PlanManager()" << std::endl;
-
     if (planPath = fs::current_path() / "data"; !fs::exists(planPath))
         return;
 
     // Open the plans file
-    if (planFile.open(planFileName.data(), ios::in);
+    if (planFile.open(planPath / planFileName, ios::in);
         !planFile.is_open())
         return;
 
@@ -50,25 +48,34 @@ PlanManager::PlanManager() {
     std::string line;
 
     std::regex dateRegex(R"((\d{4}-\d{2}-\d{2}))");
-    std::regex entryRegex(R"(\[(.*?)\]={([^}]+)})");
+    std::regex memoRegex(R"(#\$(.*?)\#\$)");
+    std::regex entryRegex(R"(\[(.*?)\]=\{([^}]+)\})");
     std::regex itemRegex(R"(([^,]+))");
 
     while (std::getline(planFile, line)) {
         // Regex to match date
-        std::smatch dateMatch;
+        std::smatch dateMatch, memoMatch;
         regex_search(line, dateMatch, dateRegex);
-        Date date(dateMatch[1].str());
+        regex_search(line, memoMatch, memoRegex);
+        
+        std::string memo;
+        if (memoMatch.size() > 1) {
+            memo = memoMatch[1].str();
+        }
+        Date date(dateMatch[1].str(), memo);
 
-        // Regex to match entries
-        std::smatch entryMatch;
+        std::sregex_iterator entryBegin(line.cbegin(), line.cend(), entryRegex);
+        std::sregex_iterator entryEnd;
         std::list<Meal> meals;
 
-        while (std::regex_search(line.cbegin(), line.cend(), entryMatch, entryRegex)) {
+        for (auto entryIt = entryBegin; entryIt != entryEnd; ++entryIt) {
             // Meal 매칭
-            std::string mealName = entryMatch[1].str();
-            std::string items = entryMatch[2].str();
+            std::string mealName = (*entryIt)[1].str();
+            std::string items = (*entryIt)[2].str();
 
             std::list<Recipe> recipes;
+            int servings { 1 };
+
             std::sregex_iterator itemBegin(items.cbegin(), items.cend(), itemRegex);
             std::sregex_iterator itemEnd;
 
@@ -78,15 +85,16 @@ PlanManager::PlanManager() {
 
                 // Check if the item is a number
                 if (isdigit(item[0])) {
-                    int servings = std::stoi(item);
-                    meals.emplace_back(mealName, servings, recipes);
-                    recipes.clear();
+                    servings = std::stoi(item);
+                    // recipes.clear();
                     break;
                 }
                 else {
                     recipes.push_back(item);
                 }
             }
+            meals.emplace_back(mealName, servings, recipes);
+            recipes.clear();
         }
 
         plans[date] = meals;
@@ -96,9 +104,12 @@ PlanManager::PlanManager() {
 }
 
 PlanManager::~PlanManager() {
-    std::cout << "~PlanManager()" << std::endl;
+    // Create directory
+    if (planPath = fs::current_path() / "data"; !fs::exists(planPath))
+        fs::create_directory(planPath);
+
     // Open the plans file
-    if (planFile.open(fs::current_path() / planFileName, std::ios::out);
+    if (planFile.open(planPath / planFileName, std::ios::out);
         !planFile.is_open()) {
         std::cerr << "file open failed." << std::endl;
         return;

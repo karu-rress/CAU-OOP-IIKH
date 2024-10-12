@@ -22,6 +22,11 @@ Date::Date(const std::string &date) {
     iss >> year >> delimiter >> month >> delimiter >> this->date;
 }
 
+Date::Date(const std::string &date, const std::string &description)
+    : Date(date) {
+    this->description = description;
+}
+
 string Date::getDateAsString() const {
     ostringstream oss;
     oss << setw(2) << setfill('0'); // 출력 폭 설정

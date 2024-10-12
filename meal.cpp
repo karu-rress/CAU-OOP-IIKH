@@ -16,7 +16,7 @@ Meal::Meal(const std::string &mealName, int servings)
     : servings(servings)
     , name(mealName) { }
 
-Meal::Meal(const std::string &mealName, int servings, std::list<Recipe> recipes)
+Meal::Meal(const std::string &mealName, int servings, const std::list<Recipe> &recipes)
     : servings(servings)
     , name(mealName)
     , recipes(recipes) { }

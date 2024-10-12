@@ -13,6 +13,8 @@
 #include "plan_manager.h"
 #include "recipe_db.h"
 
+#include <iostream>
+
 int main() {
     // Initialize the plan manager and recipe database
     PlanManager planManager;
@@ -22,7 +24,12 @@ int main() {
     // to the plan manager and recipe database
     Greeter greeter(planManager, recipeDB);
 
-    greeter.run();
+    try {
+        // Run the greeter
+        greeter.run();
+    } catch (const std::exception &e) {
+        std::cerr << "An error occurred: " << e.what() << std::endl;
+    }
 
     return 0;
 }
