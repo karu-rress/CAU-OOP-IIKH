@@ -42,7 +42,7 @@ Recipe::Recipe(std::string n, std::map<std::string, int> ingr, std::string instr
 void Recipe::edit() {
     ingredients.clear();
 
-    std::cout << std::format("Editing Recipe: {}\n\n", name);
+    // input new ingredients
     std::cout << "Enter ingredients (format: egg 100 flour 200 ...): ";
 
     std::string line;
@@ -65,6 +65,7 @@ void Recipe::edit() {
     // input new preptime
     std::cout << "Enter preparation time (minutes): ";
     std::cin >> prepTime;
+    std::cin.ignore(); 
 }
 
 // Display method
