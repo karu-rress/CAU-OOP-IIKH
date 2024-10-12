@@ -179,7 +179,7 @@ void PlanManager::reviewPlans() {
         }
     }
 
-    plans = move(newPlan);
+    plans = std::move(newPlan);
 
     cout << "Operation completed." << endl;
     cin.get();
