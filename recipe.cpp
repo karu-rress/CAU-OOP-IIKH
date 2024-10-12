@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <sstream>
 
 #include "recipe.h"
 
@@ -38,32 +39,31 @@ int Recipe::getPrepTime() const {
 
 // Edit method
 void Recipe::edit() {
-    std::cout << "Editing Recipe: " << name << std::endl;
+    ingredients.clear();
 
-    // input new ingredients
+    std::cout << "Editing Recipe: " << name << std::endl << std::endl;
     std::cout << "Enter ingredients (format: egg 100 flour 200 ...): ";
 
-    ingredients.clear();
+    std::string line;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::getline(std::cin, line);
+
+    std::istringstream iss(line);
+    
     std::string name;
     int quantity;
-
-    while (std::cin >> name >> quantity) {
+    
+    while (iss >> name >> quantity) {
         ingredients[name] = quantity;
-        if (std::cin.peek() == '\n') {
-            std::cin.ignore();
-            break;
-        }
     }
 
     // input new instruction
     std::cout << "Enter instruction: ";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, instructions);
 
     // input new preptime
     std::cout << "Enter preparation time (minutes): ";
     std::cin >> prepTime;
-    std::cin.ignore();
 }
 
 // Display method

@@ -92,18 +92,19 @@ void Greeter::printInitialMessage() {
     std::cout << "=================== IIKH ===================\n";
     std::cout << "Welcome to IIKH, the Interactive Intelligent Kitchen Helper\n\n";
     std::cout << "Press Return to begin\n";
-    std::cin.ignore();
+    std::cin.get();
 }
 
 void Greeter::PrintMenu() {
-    std::cout << "Please select an option:" << std::endl;
+    std::cout << "Please select an option\n\n";
 
-    std::cout << "1. Search recipes\n"
-              << "2. Add a new recipe\n"
-              << "3. Edit a recipe\n"
-              << "4. Review meal plans\n"
-              << "5. Create a new meal plan\n"
-              << "6. Quit" << std::endl;
+    std::cout << "  1. Search recipes\n"
+              << "  2. Add a new recipe\n"
+              << "  3. Edit a recipe\n"
+              << "  4. Review meal plans\n"
+              << "  5. Create a new meal plan\n"
+              << "  6. Quit\n\n"
+              << "Input > ";
 }
 
 Option Greeter::getUserOption() {
@@ -111,7 +112,10 @@ Option Greeter::getUserOption() {
 
     while (true) {
         std::cin >> option;
-        std::cin.ignore();
+        if (!std::cin) {
+            std::cin.clear();
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         switch (option) {
         case 1:
             return Option::SearchRecipes;
@@ -126,7 +130,8 @@ Option Greeter::getUserOption() {
         case 6:
             return Option::Quit;
         default:
-            std::cout << "Invalid option. Please try again." << std::endl;
+            std::cout << "Invalid option. Please try again.\n\n"
+                      << "Input > ";
         }
     }
 }

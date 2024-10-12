@@ -4,7 +4,7 @@
  *
  * @author: Na Sunwoo@CSE-23 (@karu-rress)
  * @brief: Recipe와 Meal을 관리하는 데이터베이스 Wrapper
- * @version: 0.1
+ * @version: 1.0
  *
  */
 
@@ -55,9 +55,6 @@ RecipeDatabase::RecipeDatabase() {
         ingredients.clear();
     }
 
-    for (auto &recipe : recipes)
-        recipe.displayRecipe();
-
     dbFile.close();
 }
 
@@ -85,13 +82,13 @@ RecipeDatabase::~RecipeDatabase() {
 }
 
 // Search recipes by keyword
-list<Recipe> RecipeDatabase::searchRecipes() const {
+void RecipeDatabase::searchRecipes() const {
     cout << "Input keywords (separated by spaces): ";
 
     // Get the keywords from the user
     string input;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     getline(cin, input);
+
     istringstream iss(input);
 
     // istream_iterator automatically splits the input by spaces
@@ -125,7 +122,17 @@ list<Recipe> RecipeDatabase::searchRecipes() const {
             result.push_back(recipe);
     }
 
-    return result;
+    if (result.empty()) {
+        cout << "\nNo recipes found.\n";
+    }
+    else {
+        cout << "\nSearch results:\n\n";
+        for (const auto &recipe : result)
+            recipe.displayRecipe();
+    }
+
+    cout << "\nPress Return to continue...";
+    cin.get();
 }
 
 // Get a recipe by name
@@ -159,22 +166,78 @@ Recipe RecipeDatabase::operator[](const string &name) const {
 
 // Add a recipe
 void RecipeDatabase::addNewRecipe() {
-    Recipe recipe;
+    cout << "Enter the new name of the recipe: ";
 
-    recipe.edit();
-    recipes.push_back(recipe);
-}
-
-// TODO: check if this works
-void RecipeDatabase::editRecipe() {
-    // Get the recipe name from the user
-    cout << "Enter the name of the recipe to edit: ";
     string name;
     cin >> name;
 
-    // Get the recipe by name and edit it
-    Recipe &recipe = (*this)[name];
+    Recipe recipe(name);
     recipe.edit();
+    recipes.push_back(recipe);
+
+    cout << "\nRecipe added successfully.\n"
+         << "Press Return to continue...";
+    cin.ignore();
+    cin.get();
+}
+
+void RecipeDatabase::editRecipe() {
+    // Get the recipe name from the user
+    cout << "Enter the name of the recipe to edit: ";
+
+    string name;
+    cin >> name;
+
+    if (ranges::find_if(recipes, [&name](const Recipe &recipe) {
+            return recipe.getName() == name;
+        })
+        == recipes.end()) {
+        cout << "Recipe not found.\n"
+             << "Press Return to continue...";
+        cin.ignore();
+        cin.get();
+        return;
+    }
+
+    cout << "Edit or remove the recipe \'" << name << "\'?\n\n"
+         << "  1. Edit\n"
+         << "  2. Remove\n"
+         << "  3. Cancel\n\n"
+         << "Enter your choice > ";
+
+    int choice;
+    cin >> choice;
+
+    switch (choice) {
+    case 1: {
+        // Get the recipe by name and edit it
+        Recipe &recipe = (*this)[name];
+        recipe.edit();
+
+        cout << "Recipe edited successfully.\n"
+             << "Press Return to continue...";
+        break;
+    }
+    case 2: {
+        // Remove the recipe by name
+        removeRecipe(name);
+
+        cout << "Recipe removed successfully.\n"
+             << "Press Return to continue...";
+        break;
+    }
+    default:
+        if (!cin) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        cout << "Operation canceled.\n"
+             << "Press Return to continue...";
+        return;
+    }
+
+    cin.ignore();
+    cin.get();
 }
 
 // Remove a recipe (by name)
@@ -183,10 +246,3 @@ void RecipeDatabase::removeRecipe(const string &name) {
         return recipe.getName() == name;
     });
 }
-
-// Remove a recipe (by object)
-/*
-void RecipeDatabase::removeRecipe(const Recipe &recipe) {
-    recipes.remove(recipe);
-}
-*/

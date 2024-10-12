@@ -4,7 +4,7 @@
  *
  * @author: Na Sunwoo@CSE-23 (@karu-rress)
  * @brief: Entry point of IIKH program
- * @version: 0.1
+ * @version: 1.0
  *
  */
 
@@ -28,7 +28,9 @@ int main() {
         // Run the greeter
         greeter.run();
     } catch (const std::exception &e) {
-        std::cerr << "An error occurred: " << e.what() << std::endl;
+        std::cerr << "An error has occurred: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "An unknown error has occurred." << std::endl;
     }
 
     return 0;

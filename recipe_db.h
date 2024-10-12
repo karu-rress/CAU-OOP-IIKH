@@ -4,7 +4,7 @@
  *
  * @author: Na Sunwoo@CSE-23 (@karu-rress)
  * @brief: Recipe와 Meal을 관리하는 데이터베이스 Wrapper
- * @version: 0.1
+ * @version: 1.0
  *
  */
 
@@ -34,7 +34,7 @@ public:
     ~RecipeDatabase();
 
     // Search recipes by keyword
-    std::list<Recipe> searchRecipes() const;
+    void searchRecipes() const;
 
     // Get a recipe by name
     Recipe getRecipe(const std::string &name) const;
