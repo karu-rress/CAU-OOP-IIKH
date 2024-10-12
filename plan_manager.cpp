@@ -32,8 +32,8 @@
 #include "plan_manager.h"
 #include "recipe.h"
 
-using namespace std;
 namespace fs = std::filesystem;
+using namespace std;
 
 // Reads plans from the file
 PlanManager::PlanManager() {
@@ -46,47 +46,47 @@ PlanManager::PlanManager() {
         return;
 
     // Read the plans from the file
-    std::string line;
+    string line;
 
-    std::regex dateRegex(R"((\d{4}-\d{2}-\d{2}))");
-    std::regex memoRegex(R"(\$\#(.*?)\#\$)");
-    std::regex entryRegex(R"(\[(.*?)\]=\{([^}]+)\})");
-    std::regex itemRegex(R"(([^,]+))");
+    regex dateRegex(R"((\d{4}-\d{2}-\d{2}))");
+    regex memoRegex(R"(\$\#(.*?)\#\$)");
+    regex entryRegex(R"(\[(.*?)\]=\{([^}]+)\})");
+    regex itemRegex(R"(([^,]+))");
 
-    while (std::getline(planFile, line)) {
+    while (getline(planFile, line)) {
         // Regex to match date
-        std::smatch dateMatch, memoMatch;
+        smatch dateMatch, memoMatch;
         regex_search(line, dateMatch, dateRegex);
         regex_search(line, memoMatch, memoRegex);
 
-        std::string memo;
+        string memo;
         if (memoMatch.size() > 1) {
             memo = memoMatch[1].str();
         }
         Date date(dateMatch[1].str(), memo);
 
-        std::sregex_iterator entryBegin(line.cbegin(), line.cend(), entryRegex);
-        std::sregex_iterator entryEnd;
-        std::list<Meal> meals;
+        sregex_iterator entryBegin(line.cbegin(), line.cend(), entryRegex);
+        sregex_iterator entryEnd;
+        list<Meal> meals;
 
         for (auto entryIt = entryBegin; entryIt != entryEnd; ++entryIt) {
             // Meal 매칭
-            std::string mealName = (*entryIt)[1].str();
-            std::string items = (*entryIt)[2].str();
+            string mealName = (*entryIt)[1].str();
+            string items = (*entryIt)[2].str();
 
-            std::list<Recipe> recipes;
+            list<string> recipes;
             int servings { 1 };
 
-            std::sregex_iterator itemBegin(items.cbegin(), items.cend(), itemRegex);
-            std::sregex_iterator itemEnd;
+            sregex_iterator itemBegin(items.cbegin(), items.cend(), itemRegex);
+            sregex_iterator itemEnd;
 
             for (auto it = itemBegin; it != itemEnd; ++it) {
                 // Recipe 매칭
-                std::string item = (*it).str();
+                string item = (*it).str();
 
                 // Check if the item is a number
                 if (isdigit(item[0])) {
-                    servings = std::stoi(item);
+                    servings = stoi(item);
                     // recipes.clear();
                     break;
                 }
@@ -110,9 +110,9 @@ PlanManager::~PlanManager() {
         fs::create_directory(planPath);
 
     // Open the plans file
-    if (planFile.open(planPath / planFileName, std::ios::out);
+    if (planFile.open(planPath / planFileName, ios::out);
         !planFile.is_open()) {
-        std::cerr << "file open failed." << std::endl;
+        cerr << "file open failed." << endl;
         return;
     }
 
@@ -191,7 +191,7 @@ void PlanManager::createNewPlan() {
     newDate.displayAndEdit();
     newDate.manageMeals();
 
-    std::list<Meal> mealList = newDate.getMeals();
+    list<Meal> mealList = newDate.getMeals();
     plans[newDate] = mealList;
 
     return;

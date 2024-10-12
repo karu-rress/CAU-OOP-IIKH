@@ -17,8 +17,9 @@
 
 int main() {
     // Initialize the plan manager and recipe database
-    PlanManager planManager;
     RecipeDatabase recipeDB;
+    Meal::setRecipeDatabase(&recipeDB);
+    PlanManager planManager;
 
     // Initialize the greeter and connect
     // to the plan manager and recipe database

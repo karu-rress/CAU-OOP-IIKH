@@ -17,7 +17,7 @@ public:
     
     explicit Meal(int servings = 1);
     Meal(const std::string &mealName, int servings = 1);
-    Meal(const std::string &mealName, int servings, const std::list<Recipe> &recipes);
+    Meal(const std::string &mealName, int servings, const std::list<std::string> &recipes);
 
     // Getters
     [[nodiscard]] int getServings() const;
@@ -40,7 +40,7 @@ public:
     void removeRecipe(const std::string &recipeName);
 
     // Print the meal (list of recipe names)
-    [[deprecated("No reasons to use this")]]
+    [[deprecated("Use displayMealInfo() instead")]]
     void printMeal() const;
 
     static void setRecipeDatabase(RecipeDatabase *db);

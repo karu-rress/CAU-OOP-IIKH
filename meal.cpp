@@ -17,10 +17,12 @@ Meal::Meal(const std::string &mealName, int servings)
     : servings(servings)
     , name(mealName) { }
 
-Meal::Meal(const std::string &mealName, int servings, const std::list<Recipe> &recipes)
-    : servings(servings)
-    , name(mealName)
-    , recipes(recipes) { }
+Meal::Meal(const std::string &mealName, int servings, const std::list<std::string> &recipes)
+    : Meal(mealName, servings) {
+    for (const auto &recipe : recipes) {
+        addRecipe(recipe);
+    }
+}
 
 //
 // Getters ================================
@@ -85,7 +87,7 @@ void Meal::removeRecipe(const std::string &recipeName) {
 }
 
 // Print the meal (recipe names)
-[[deprecated("No reasons to use this")]]
+[[deprecated("Use displayMealInfo() instead")]]
 void Meal::printMeal() const {
     for (auto &recipe : recipes) {
         std::cout << recipe.getName() << std::endl;

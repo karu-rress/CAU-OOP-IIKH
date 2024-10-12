@@ -16,8 +16,6 @@
 Greeter::Greeter(PlanManager &pm, RecipeDatabase &db) {
     planManager = &pm;
     recipeDatabase = &db;
-
-    Meal::setRecipeDatabase(recipeDatabase);
 }
 
 void Greeter::run() {
