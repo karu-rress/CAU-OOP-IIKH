@@ -3,35 +3,31 @@
 CC = g++
 CXXFLAGS = -Wall -Wextra -std=c++20
 
-BIN_DIR := ./bin
-$(BIN_DIR):
-	mkdir -p $(BIN_DIR)
-
 all: iikh
 
-$(BIN_DIR)/date.o: date.h date.cpp | $(BIN_DIR)
-	$(CC) $(CXXFLAGS) -c date.cpp -o $(BIN_DIR)/date.o
+./bin/date.o: date.h date.cpp
+	$(CC) $(CXXFLAGS) -c date.cpp -o ./bin/date.o
 
-$(BIN_DIR)/greeter.o: greeter.h greeter.cpp | $(BIN_DIR)
-	$(CC) $(CXXFLAGS) -c greeter.cpp -o $(BIN_DIR)/greeter.o
+./bin/greeter.o: greeter.h greeter.cpp
+	$(CC) $(CXXFLAGS) -c greeter.cpp -o ./bin/greeter.o
 
-$(BIN_DIR)/meal.o: meal.h meal.cpp | $(BIN_DIR)
-	$(CC) $(CXXFLAGS) -c meal.cpp -o $(BIN_DIR)/meal.o
+./bin/meal.o: meal.h meal.cpp
+	$(CC) $(CXXFLAGS) -c meal.cpp -o ./bin/meal.o
 
-$(BIN_DIR)/plan_manager.o: plan_manager.h plan_manager.cpp | $(BIN_DIR)
-	$(CC) $(CXXFLAGS) -c plan_manager.cpp -o $(BIN_DIR)/plan_manager.o
+./bin/plan_manager.o: plan_manager.h plan_manager.cpp
+	$(CC) $(CXXFLAGS) -c plan_manager.cpp -o ./bin/plan_manager.o
 
-$(BIN_DIR)/recipe_db.o: recipe_db.h recipe_db.cpp | $(BIN_DIR)
-	$(CC) $(CXXFLAGS) -c recipe_db.cpp -o $(BIN_DIR)/recipe_db.o
+./bin/recipe_db.o: recipe_db.h recipe_db.cpp
+	$(CC) $(CXXFLAGS) -c recipe_db.cpp -o ./bin/recipe_db.o
 
-$(BIN_DIR)/recipe.o: recipe.h recipe.cpp | $(BIN_DIR)
-	$(CC) $(CXXFLAGS) -c recipe.cpp -o $(BIN_DIR)/recipe.o
+./bin/recipe.o: recipe.h recipe.cpp
+	$(CC) $(CXXFLAGS) -c recipe.cpp -o ./bin/recipe.o
 
-$(BIN_DIR)/main.o: main.cpp | $(BIN_DIR)
-	$(CC) $(CXXFLAGS) -c main.cpp -o $(BIN_DIR)/main.o
+./bin/main.o: main.cpp
+	$(CC) $(CXXFLAGS) -c main.cpp -o ./bin/main.o
 
-iikh: $(BIN_DIR)/date.o $(BIN_DIR)/greeter.o $(BIN_DIR)/meal.o $(BIN_DIR)/plan_manager.o $(BIN_DIR)/recipe_db.o $(BIN_DIR)/recipe.o $(BIN_DIR)/main.o
-	$(CC) $(CXXFLAGS) -o iikh $(BIN_DIR)/date.o $(BIN_DIR)/greeter.o $(BIN_DIR)/meal.o $(BIN_DIR)/plan_manager.o $(BIN_DIR)/recipe_db.o $(BIN_DIR)/recipe.o $(BIN_DIR)/main.o
+iikh: ./bin/date.o ./bin/greeter.o ./bin/meal.o ./bin/plan_manager.o ./bin/recipe_db.o ./bin/recipe.o ./bin/main.o
+	$(CC) $(CXXFLAGS) -o iikh ./bin/date.o ./bin/greeter.o ./bin/meal.o ./bin/plan_manager.o ./bin/recipe_db.o ./bin/recipe.o ./bin/main.o
 
 clean:
-	rm -f $(BIN_DIR)/*.o iikh
+	rm -f ./bin/*.o iikh
