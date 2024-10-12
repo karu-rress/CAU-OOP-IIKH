@@ -6,7 +6,6 @@
  * @brief: Plan의 데이터를 저장 및 호출하는 기능들
  *
  */
-
 #ifndef _PLAN_MANAGER_H_
 #define _PLAN_MANAGER_H_
 
@@ -31,7 +30,7 @@ public:
     void createNewPlan();
 
 private:
-    // Plans file
+    // Plans files
     static constexpr inline std::string_view planFileName = "plans.txt";
 
     // stores path & file stream

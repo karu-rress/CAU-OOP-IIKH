@@ -66,7 +66,8 @@ void Meal::displayMealInfo() const {
 
     std::cout << "Recipes included in this meal : " << std::endl;
     for (auto &recipe : recipes) {
-        std::cout << std::format(" - {}\n", recipe.getName()); // print name
+        // print name
+        std::cout << std::format(" - {} (for {} servings)\n", recipe.getName(), servings);
         recipe.displayRecipe(); // print details
     }
 }

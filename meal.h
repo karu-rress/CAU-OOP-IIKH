@@ -14,7 +14,7 @@ class Recipe;
 class Meal {
 public:
     // Constructor
-    
+
     explicit Meal(int servings = 1);
     Meal(const std::string &mealName, int servings = 1);
     Meal(const std::string &mealName, int servings, const std::list<std::string> &recipes);

@@ -5,6 +5,7 @@
 #include <limits>
 #include <map>
 #include <sstream>
+#include <tuple>
 
 #include "date.h"
 
@@ -54,7 +55,7 @@ void Date::displayAndEdit() {
 
     // Prompt user to edit the memo
     cout << "Would you like to edit the memo? (Y/N): ";
-    
+
     char choice;
     cin >> choice;
     cin.ignore(); // Ignore any leftover newline character
@@ -80,6 +81,7 @@ void Date::manageMeals() {
             cout << "No meals planned for this date." << endl;
         }
         else {
+            cout << "Current meal list for this date:" << endl;
             for (const auto &meal : meals) {
                 cout << "- " << meal.getName() << endl;
             }

@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <string_view>
+#include <tuple>
 
 #include "meal.h"
 
@@ -15,16 +16,20 @@ public:
     Date(const std::string &date);
     Date(const std::string &date, const std::string &description);
 
+    [[nodiscard]] std::tuple<int, int, int> getDate() const;
     [[nodiscard]] std::string getDateAsString() const;
     [[nodiscard]] std::list<Meal> getMeals() const;
     [[nodiscard]] std::string getMemo() const;
 
     void displayAndEdit();
     void manageMeals();
+
     void buildGroceryList(std::map<std::string, double> &groceryList) const;
 
     bool operator<(const Date &rhs) const {
-        return year < rhs.year || (year == rhs.year && month < rhs.month) || (year == rhs.year && month == rhs.month && date < rhs.date);
+        return year < rhs.year
+            || (year == rhs.year && month < rhs.month)
+            || (year == rhs.year && month == rhs.month && date < rhs.date);
     }
 
 private:
