@@ -189,8 +189,10 @@ void PlanManager::reviewPlans() {
             }
 
             newDate.setMeals(meals);
-            if (newPlans.push_back(newDate); newDate != oldDate)
+            if (newDate != oldDate) {
                 ranges::remove(newPlans, oldDate);
+                newPlans.push_back(newDate);
+            }
 
             if (is_break)
                 break;
