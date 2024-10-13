@@ -98,7 +98,10 @@
     "__verbose_abort": "cpp",
     "ios": "cpp",
     "locale": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "xstring": "cpp",
+    "xtree": "cpp",
+    "xutility": "cpp"
   },
   "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: WebKit, PointerAlignment: Right, BreakBeforeBraces: Custom, BraceWrapping: { BeforeElse: True }, BreakConstructorInitializersStyle: BeforeComma }",
   "C_Cpp.vcFormat.indent.braces": false,

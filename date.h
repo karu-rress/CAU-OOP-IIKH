@@ -15,6 +15,7 @@ public:
     Date(int year, int month, int day);
     Date(const std::string &date);
     Date(const std::string &date, const std::string &description);
+    Date(const std::string &date, const std::string &description, const std::list<Meal> &meals);
 
     [[nodiscard]] std::tuple<int, int, int> getDate() const;
     [[nodiscard]] std::string getDateAsString() const;
@@ -23,6 +24,7 @@ public:
 
     void displayAndEdit();
     void manageMeals();
+    void setMeals(const std::list<Meal> &meals);
 
     void buildGroceryList(std::map<std::string, double> &groceryList) const;
 

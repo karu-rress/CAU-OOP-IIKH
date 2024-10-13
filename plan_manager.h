@@ -37,7 +37,9 @@ private:
     std::filesystem::path planPath;
     std::fstream planFile;
 
-    std::map<Date, std::list<Meal>> plans;
+    std::list<Date> plans;
+
+    void sortPlans();
 };
 
 #endif

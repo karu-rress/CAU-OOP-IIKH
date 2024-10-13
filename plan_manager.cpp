@@ -26,6 +26,7 @@
 #include <fstream>
 #include <iostream>
 #include <iterator>
+#include <ranges>
 #include <regex>
 #include <sstream>
 #include <vector>
@@ -61,22 +62,19 @@ PlanManager::PlanManager() {
         regex_search(line, memoMatch, memoRegex);
 
         string memo;
-        if (memoMatch.size() > 1) {
+        if (memoMatch.size() > 1)
             memo = memoMatch[1].str();
-        }
-        Date date(dateMatch[1].str(), memo);
 
         sregex_iterator entryBegin(line.cbegin(), line.cend(), entryRegex);
         sregex_iterator entryEnd;
         list<Meal> meals;
 
         for (auto entryIt = entryBegin; entryIt != entryEnd; ++entryIt) {
-            // Meal 매칭
-            string mealName = (*entryIt)[1].str();
-            string items = (*entryIt)[2].str();
+            string mealName = (*entryIt)[1].str(); // Meal 매칭
+            string items = (*entryIt)[2].str(); // 레시피 매칭
 
             list<string> recipes;
-            int servings { 1 };
+            int servings;
 
             sregex_iterator itemBegin(items.cbegin(), items.cend(), itemRegex);
             sregex_iterator itemEnd;
@@ -88,21 +86,20 @@ PlanManager::PlanManager() {
                 // Check if the item is a number
                 if (isdigit(item[0])) {
                     servings = stoi(item);
-                    // recipes.clear();
                     break;
                 }
                 else {
                     recipes.push_back(item);
                 }
             }
+            // Save recipes to the meal
             meals.emplace_back(mealName, servings, recipes);
             recipes.clear();
         }
-
-        // using emplace as it is first insertion
-        plans.emplace(date, meals);
+        // Save the date, memo, and meals to the plans
+        plans.emplace_back(dateMatch[1].str(), memo, meals);
+        meals.clear();
     }
-
     planFile.close();
 }
 
@@ -118,7 +115,9 @@ PlanManager::~PlanManager() {
         return;
     }
 
-    for (const auto &[date, meals] : plans) {
+    for (const auto &date : plans) {
+        auto meals = date.getMeals();
+
         planFile << date.getDateAsString() << " ";
 
         if (!date.getMemo().empty())
@@ -142,7 +141,9 @@ void PlanManager::reviewPlans() {
     bool is_break = false;
 
     // iterate plans and modify
-    for (auto &[oldDate, meals] : plans) {
+    for (auto &oldDate : plans) {
+        auto meals = oldDate.getMeals();
+
         Date newDate = oldDate;
         newDate.displayAndEdit();
 
@@ -187,8 +188,9 @@ void PlanManager::reviewPlans() {
                 is_break = true;
             }
 
-            if (newPlans.insert_or_assign(newDate, meals); newDate != oldDate)
-                newPlans.erase(oldDate);
+            newDate.setMeals(meals);
+            if (newPlans.push_back(newDate); newDate != oldDate)
+                ranges::remove(newPlans, oldDate);
 
             if (is_break)
                 break;
@@ -198,6 +200,7 @@ void PlanManager::reviewPlans() {
             break;
     } // iterate plans
     plans = newPlans;
+    sortPlans();
 }
 
 void PlanManager::createNewPlan() {
@@ -206,7 +209,7 @@ void PlanManager::createNewPlan() {
     cin >> date;
 
     Date newDate(date);
-    if (plans.contains(newDate)) {
+    if (ranges::find(plans, newDate) != plans.end()) {
         cout << "Already exists. Aborting!\n"
              << "Press Return to continue...";
         cin.ignore();
@@ -217,7 +220,15 @@ void PlanManager::createNewPlan() {
     newDate.manageMeals();
 
     list<Meal> mealList = newDate.getMeals();
-    plans[newDate] = mealList;
+    newDate.setMeals(mealList);
+    plans.push_back(newDate);
+    sortPlans();
 
     return;
+}
+
+void PlanManager::sortPlans() {
+    plans.sort([](const Date &lhs, const Date &rhs) {
+        return lhs < rhs;
+    });
 }

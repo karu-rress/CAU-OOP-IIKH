@@ -29,6 +29,11 @@ Date::Date(const std::string &date, const std::string &description)
     this->memo = description;
 }
 
+Date::Date(const std::string &date, const std::string &description, const std::list<Meal> &meals)
+    : Date(date, description) {
+    this->meals = meals;
+}
+
 [[nodiscard]] std::tuple<int, int, int> Date::getDate() const {
     return {year, month, date};
 }
@@ -157,6 +162,10 @@ void Date::manageMeals() {
             cout << "Invalid choice. Please try again." << endl;
         }
     }
+}
+
+void Date::setMeals(const list<Meal> &meals) {
+    this->meals = meals;
 }
 
 // Build grocery list
