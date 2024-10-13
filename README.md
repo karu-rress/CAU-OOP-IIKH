@@ -35,3 +35,14 @@
     <td><b>취득평점</b></td><td>-</td>
   </tr>
 </table>
+
+## IIKH (Interactive Intelligent Kitchen Helper)
+
+### Class Diagram
+![Class Diagram](./assets/class-diagram.png)
+- Date
+- Greeter
+- Meal
+- PlanManager
+- RecipeDatabase
+- Recipe
