@@ -35,7 +35,7 @@ Date::Date(const std::string &date, const std::string &description, const std::l
 }
 
 [[nodiscard]] std::tuple<int, int, int> Date::getDate() const {
-    return {year, month, date};
+    return { year, month, date };
 }
 
 [[nodiscard]] string Date::getDateAsString() const {
@@ -82,13 +82,6 @@ void Date::manageMeals() {
 
         if (meals.empty()) {
             cout << "No meals planned for this date." << endl;
-        }
-        else {
-            cout << "Current meal list for this date:" << endl;
-            for (const auto &meal : meals) {
-                cout << "- " << meal.getName() << endl;
-                meal.displayMealInfo();
-            }
         }
 
         cout << "\nWhat would you like to do? Choose one.\n\n"
