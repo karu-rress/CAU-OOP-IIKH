@@ -49,6 +49,8 @@ private:
     static constexpr OS os = OS::macOS;
 #elif __linux__
     static constexpr OS os = OS::Linux;
+#else
+    static_assert(false, "IIKH cannot run on this OS!");
 #endif
 
     void printInitialMessage();
