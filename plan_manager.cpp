@@ -171,9 +171,11 @@ void PlanManager::reviewPlans() {
             cin.ignore();
 
             if (selection == 1) {
-                Recipe newRecipe;
-                newRecipe.edit();
-                meal.addRecipe(newRecipe);
+                string name;
+
+                cout << "Enter the name of the recipe to add: ";
+                cin >> name;
+                meal.addRecipe(name);
             }
             else if (selection == 2) {
                 string recipeToRemove;
@@ -188,15 +190,15 @@ void PlanManager::reviewPlans() {
                 is_break = true;
             }
 
-            newDate.setMeals(meals);
-            if (newDate != oldDate) {
-                ranges::remove(newPlans, oldDate);
-                newPlans.push_back(newDate);
-            }
-
             if (is_break)
                 break;
         } // iterate meals
+
+        newDate.setMeals(meals);
+        if (newDate != oldDate) {
+            ranges::remove(newPlans, oldDate);
+            newPlans.push_back(newDate);
+        }
 
         if (is_break)
             break;

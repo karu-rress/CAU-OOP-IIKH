@@ -74,7 +74,7 @@ void Meal::displayMealInfo() const {
 
 // Add a recipe to the meal from the database
 void Meal::addRecipe(const std::string &recipeName) {
-    recipes.push_back(Meal::recipeDB->getRecipe(recipeName));
+    recipes.push_back((*Meal::recipeDB)[recipeName]);
 }
 
 void Meal::addRecipe(const Recipe &recipe) {
