@@ -109,12 +109,16 @@ void Date::manageMeals() {
             }
 
             if (!found) {
-                cout << "Add recipes to the meal, separated by space >> ";
-
                 // Meal meal;
                 string mealName = newMeal;
                 Meal meal(mealName);
                 string recipeNames;
+
+                meal.adjustServings();
+
+                cout << "Add recipes to the meal, separated by space >> ";
+
+                
                 cin.ignore(std::numeric_limits<streamsize>::max(), '\n');
                 getline(cin, recipeNames);
 
