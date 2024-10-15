@@ -16,7 +16,7 @@
 #include <limits>
 #include <sstream>
 
-#include "recipe_db.h"
+#include "../include/recipe_db.h"
 
 // namespace alias for std::filesystem
 namespace fs = std::filesystem;

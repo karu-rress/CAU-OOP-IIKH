@@ -38,6 +38,22 @@
 
 ## IIKH (Interactive Intelligent Kitchen Helper)
 
+### Directory Structures
+
+```
+- .vscode : settings for Visual Studio Code
+- assets : assets directory (i.e. class diagram)
+- bin : .o files directory
+- data : data directory for iikh program
+- include : header files are located
+- src : source files are located
+
+.gitignore : used for git
+Makefile : used for GNU Make
+OOP-Team1-Demo.mp4 : Demo video
+OOP03-Team1-Report.pdf : Report
+```
+
 ### Class Diagram
 ![Class Diagram](./assets/class-diagram.png)
 - Date

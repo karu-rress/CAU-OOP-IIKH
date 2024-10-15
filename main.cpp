@@ -9,9 +9,9 @@
  */
 
 // include user-defined libraries
-#include "greeter.h"
-#include "plan_manager.h"
-#include "recipe_db.h"
+#include "include/greeter.h"
+#include "include/plan_manager.h"
+#include "include/recipe_db.h"
 
 #include <iostream>
 

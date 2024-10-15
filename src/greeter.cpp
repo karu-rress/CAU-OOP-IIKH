@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string_view>
 
-#include "greeter.h"
+#include "../include/greeter.h"
 
 Greeter::Greeter(PlanManager &pm, RecipeDatabase &db) {
     planManager = &pm;

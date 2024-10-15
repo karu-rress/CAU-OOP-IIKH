@@ -3,7 +3,7 @@
 #include <limits>
 #include <sstream>
 
-#include "recipe.h"
+#include "../include/recipe.h"
 
 // Recipe constructor: initialize recipe name, ingredients, instruction, preparation time
 Recipe::Recipe(std::string n)

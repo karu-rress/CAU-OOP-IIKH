@@ -31,8 +31,8 @@
 #include <sstream>
 #include <vector>
 
-#include "plan_manager.h"
-#include "recipe.h"
+#include "../include/plan_manager.h"
+#include "../include/recipe.h"
 
 namespace fs = std::filesystem;
 using namespace std;
