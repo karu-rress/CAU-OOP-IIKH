@@ -160,8 +160,8 @@ void PlanManager::reviewPlans() {
             }
 
             cout << "If you want to edit meal, type either 1 or 2:\n\n"
-                 << "  1. Add recipe from meal\n"
-                 << "  2. Remove recipe from meal\n"
+                 << "  1. Add a recipe to meal\n"
+                 << "  2. Remove a recipe from meal\n"
                  << "  3. Cancel (Go to next meal/date)\n"
                  << "  4. Return to main menu\n\n"
                  << "Input > ";
@@ -170,12 +170,12 @@ void PlanManager::reviewPlans() {
             cin >> selection;
             cin.ignore();
 
-            if (selection == 1) { // add recipe from meal
+            if (selection == 1) {
                 Recipe newRecipe;
                 newRecipe.edit();
                 meal.addRecipe(newRecipe);
             }
-            else if (selection == 2) { // remove recipe from meal
+            else if (selection == 2) {
                 string recipeToRemove;
                 cout << "Enter the name of the recipe to remove: ";
                 cin >> recipeToRemove;

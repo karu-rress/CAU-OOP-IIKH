@@ -217,7 +217,6 @@ void RecipeDatabase::editRecipe() {
 
     int choice;
     cin >> choice;
-    cin.ignore();
 
     switch (choice) {
     case 1: {
@@ -247,6 +246,7 @@ void RecipeDatabase::editRecipe() {
         return;
     }
 
+    cin.ignore();
     cin.get();
 }
 
