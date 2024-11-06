@@ -1,4 +1,4 @@
-# [CAU] Software Project (JAVA)
+# [CAU] Object-Oriented Programming
 
 <table>
   <tr>
